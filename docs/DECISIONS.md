@@ -45,3 +45,8 @@ Format: Kontext → Entscheid → Konsequenzen. Neue Entscheide unten anfügen, 
 ## ADR-010 · Modul 7 Agentur-Text (15.09.2026)
 **Kontext:** Briefing 3.1 (mit «seit über sieben Jahren», «20 Jahre Erfahrung», Netzwerk) und Struktur 1.3 (zwei Sätze ohne Zahlen) formulieren Modul 7 unterschiedlich.
 **Entscheid (Pascal):** Beide Fassungen zulässig. Umgesetzt bleibt die Fassung 3.1 (Seed); Wechsel im Studio ohne Code möglich.
+
+## ADR-011 · Resend: Free-Plan, Region USA, Einrichtung direkt statt Vercel-Integration (15.09.2026)
+**Kontext:** Die Vercel-Integration für Resend verlangt eine bereits in Vercel hinterlegte Domain und für die EU-Region (eu-west-1) einen Bezahlplan (~USD 20/Monat). Das Formular versendet wenige Anfragen; Resend leitet nur durch, speichert nichts bei uns.
+**Entscheid (Pascal):** Resend wird in Phase 2 direkt auf resend.com eingerichtet, Free-Plan, Region us-east-1. Vercel-Integration nicht verwendet.
+**Konsequenzen:** Datenschutzerklärung nennt Resend (USA, Standardvertragsklauseln). Regionswechsel später gegen Aufpreis möglich. `RESEND_API_KEY` wird von Hand in Vercel gesetzt.

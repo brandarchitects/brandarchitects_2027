@@ -5,8 +5,8 @@ Reihenfolge nach Risiko (siehe docs/briefings/tech-briefing-v2.md Kap. 6). Eine 
 | Phase | Ziel | Status | Bemerkung |
 |---|---|---|---|
 | 0 – Fundament | Repo, Next.js 16, next-intl, Sanity-Schema + Studio, Content-API, alle Routen, Formular-Endpunkt, SEO-Endpunkte, Doku | ✅ 15.09.2026 | Gestaltung = bewusst roh (Tokens als Platzhalter) |
-| 1 – Sanity live + Seed | Sanity-Projekt (Pascal), env in Vercel, `npm run seed`, Webhook, erster Deploy zeigt Inhalte | ☐ | docs/SANITY.md Schritt 1–7 |
-| 2 – Formular scharf | Resend-Konto, Domain verifiziert, Test-Anfrage im Postfach; ohne-JS-Pfad getestet | ☐ | braucht DNS-Zugriff |
+| 1 – Sanity live + Seed | Sanity-Projekt (Pascal), env in Vercel, `npm run seed`, Webhook, erster Deploy zeigt Inhalte | ◐ | Vercel-Projekt verknüpft, Sanity über Vercel-Integration (bestehendes Konto) angelegt – 15.09.2026. Offen: CORS, Seed, Webhook, restliche env |
+| 2 – Formular scharf | Resend-Konto direkt auf resend.com (nicht Vercel-Integration: verlangt Domain in Vercel und Bezahlplan für EU-Region), Domain verifiziert, API-Key in Vercel, Test-Anfrage im Postfach; ohne-JS-Pfad getestet | ☐ | braucht DNS-Zugriff; Region us-east-1 (Free) akzeptiert, siehe ADR-011 |
 | 3 – Design-System | `docs/design-spec.md` (swiss-design-brief) → Tokens, Schrift (next/font/local), alle 10 Module gestaltet, Motion sparsam | ☐ | Abnahme durch Pascal |
 | 4 – Leitcases | Geberit + TrustWork im Studio mit Bildern; Fallseiten-Template final | ☐ | Case-Inventar, Freigaben |
 | 5 – Inhalte final | Alle Seiten mit finalen Texten, Impressum/Datenschutz Endfassung, OG-Bilder | ☐ | |
