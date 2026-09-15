@@ -1,25 +1,272 @@
 @import "tailwindcss";
 
 /*
- * Design-Tokens. STAND: technischer Rohbau (Phase 0). Die verbindlichen Werte kommen aus
- * docs/design-spec.md (Phase 3) und ersetzen diese Platzhalter. Komponenten greifen nur auf
- * Tokens zu – nie auf Rohwerte –, damit der Wechsel an einer Stelle passiert.
+ * Design-Tokens – verbindlich nach docs/design-spec.md (v1, 15.09.2026).
+ * Komponenten greifen nur auf Tokens und die Komponentenklassen unten zu, nie auf Rohwerte.
+ * Schrift: Archivo Variable (OFL), geladen in app/[locale]/layout.tsx über next/font/local.
+ * Handschrift: eine Familie, zwei Breiten – schmal/leicht für Register und Labels, breit/kräftig für Headlines.
  */
 @theme {
-  --font-sans: var(--font-brand-sans), system-ui, sans-serif;
-  --color-ink: #1a1a1a;
-  --color-paper: #ffffff;
-  --color-muted: #6b6b6b;
-  --color-line: #e3e3e3;
-  --color-accent: #1a1a1a;
-  --spacing-section: 6rem;
-  --max-width-measure: 68ch;
+  --font-sans: var(--font-brand), "Helvetica Neue", Arial, sans-serif;
+
+  /* Farbe: Schwarz-Weiss-Fundament mit Temperatur, ein flacher Messing-Akzent */
+  --color-ink: #121212;
+  --color-ink-soft: #2a2a28;
+  --color-paper: #f7f6f2;
+  --color-paper-2: #ecebe5;
+  --color-muted: #5f5e5a;
+  --color-line: #d6d3ca;
+  --color-line-strong: #121212;
+  --color-accent: #8a5607;
+  --color-accent-on-ink: #e0a63a;
+  --color-error: #a3271c;
+  --color-success: #2f6b3a;
+
+  /* Abstände: 4-px-Basis; Sektionen fluid */
+  --spacing-section: clamp(5rem, 3.5rem + 6vw, 9rem);
+  --spacing-group: clamp(2.5rem, 2rem + 2vw, 4rem);
+  --spacing-gutter: clamp(1.25rem, 4vw, 4rem);
+
+  /* Raster */
+  --max-width-site: 90rem;
+  --max-width-measure: 64ch;
+  --max-width-lead: 40ch;
+
+  /* Bewegung */
+  --ease-out-brand: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 160ms;
+  --duration-base: 300ms;
+
+  --radius-none: 0;
 }
 
-html { scroll-behavior: smooth; }
+/* ---------- Basis ---------- */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  font-variation-settings: "wdth" 100;
+  font-feature-settings: "kern", "liga", "ss01";
+}
+::selection { background: var(--color-ink); color: var(--color-paper); }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.on-ink :focus-visible { outline-color: var(--color-accent-on-ink); }
+a { text-underline-offset: 0.16em; text-decoration-thickness: 1px; }
+img { display: block; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-delay: 0ms !important; transition-duration: 0.001ms !important; }
 }
-body { color: var(--color-ink); background: var(--color-paper); }
-:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+
+/* ---------- Typografische Skala (Archivo Variable: wght + wdth) ---------- */
+@utility display {
+  font-size: clamp(2.75rem, 1.6rem + 4.6vw, 6.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.028em;
+  font-weight: 600;
+  font-variation-settings: "wdth" 112;
+  text-wrap: balance;
+}
+@utility h1 {
+  font-size: clamp(2.25rem, 1.5rem + 2.8vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  font-weight: 600;
+  font-variation-settings: "wdth" 108;
+  text-wrap: balance;
+}
+@utility h2 {
+  font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.625rem);
+  line-height: 1.08;
+  letter-spacing: -0.016em;
+  font-weight: 600;
+  font-variation-settings: "wdth" 104;
+  text-wrap: balance;
+}
+@utility h3 {
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-variation-settings: "wdth" 102;
+}
+@utility lead {
+  font-size: clamp(1.1875rem, 1.05rem + 0.5vw, 1.4375rem);
+  line-height: 1.42;
+  letter-spacing: -0.005em;
+  font-weight: 400;
+}
+@utility body-sm { font-size: 0.9375rem; line-height: 1.5; }
+@utility label {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-variation-settings: "wdth" 82;
+}
+/* Registerziffer: schmal, leicht, gross – die Handschrift der Site */
+@utility index {
+  font-size: clamp(2.75rem, 2rem + 3vw, 5rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 300;
+  font-variation-settings: "wdth" 70;
+  font-variant-numeric: tabular-nums;
+}
+@utility index-sm {
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 300;
+  font-variation-settings: "wdth" 72;
+  font-variant-numeric: tabular-nums;
+}
+@utility wordmark {
+  font-size: 1.0625rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+  font-variation-settings: "wdth" 112;
+}
+
+/* ---------- Raster ---------- */
+@utility site {
+  width: 100%;
+  max-width: var(--max-width-site);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 1.5rem;
+  row-gap: 2rem;
+}
+
+/* ---------- Linien ---------- */
+@utility rule { border-top: 1px solid var(--color-line); }
+@utility rule-strong { border-top: 1px solid var(--color-line-strong); }
+.on-ink .rule, .on-ink.rule { border-color: color-mix(in srgb, var(--color-paper) 22%, transparent); }
+
+/* ---------- Schaltflächen und Links ---------- */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1;
+  border: 1px solid var(--color-ink);
+  color: var(--color-ink);
+  background: transparent;
+  transition: background-color var(--duration-fast) var(--ease-out-brand), color var(--duration-fast) var(--ease-out-brand), border-color var(--duration-fast) var(--ease-out-brand), transform var(--duration-fast) var(--ease-out-brand);
+}
+.btn:hover { background: var(--color-ink); color: var(--color-paper); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+.btn-ink { background: var(--color-ink); color: var(--color-paper); }
+.btn-ink:hover { background: var(--color-ink-soft); border-color: var(--color-ink-soft); color: var(--color-paper); }
+.on-ink .btn { border-color: var(--color-paper); color: var(--color-paper); }
+.on-ink .btn:hover { background: var(--color-paper); color: var(--color-ink); }
+.on-ink .btn-ink { background: var(--color-paper); color: var(--color-ink); }
+.on-ink .btn-ink:hover { background: var(--color-paper-2); border-color: var(--color-paper-2); }
+.btn > .arrow { transition: transform var(--duration-fast) var(--ease-out-brand); }
+.btn:hover > .arrow { transform: translateX(3px); }
+
+/* Textlink: Unterstreichung wandert beim Hover zum Akzent */
+@utility link {
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color var(--duration-fast) var(--ease-out-brand), color var(--duration-fast) var(--ease-out-brand);
+}
+.link:hover { text-decoration-color: var(--color-accent); }
+.on-ink .link { text-decoration-color: color-mix(in srgb, var(--color-paper) 35%, transparent); }
+.on-ink .link:hover { text-decoration-color: var(--color-accent-on-ink); }
+
+/* Navigationslink: Unterstrich baut sich auf */
+@utility navlink {
+  position: relative;
+  padding-block: 0.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.navlink::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--color-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-out-brand);
+}
+.navlink:hover::after, .navlink[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---------- Bild-Hover (Projektkarte) ---------- */
+@utility media-hover { overflow: hidden; background: var(--color-paper-2); }
+.media-hover img { transition: transform 600ms var(--ease-out-brand); }
+a:hover .media-hover img, a:focus-visible .media-hover img { transform: scale(1.02); }
+
+/* ---------- Fliesstext aus Sanity (Portable Text) – in @layer components, damit Utilities (z. B. max-w-none) gewinnen ---------- */
+@layer components {
+  .prose { max-width: var(--max-width-measure); }
+  .prose > * + * { margin-top: 1.1em; }
+  .prose h2 { margin-top: 2.5rem; font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem); line-height: 1.15; letter-spacing: -0.012em; font-weight: 600; font-variation-settings: "wdth" 104; }
+  .prose h3 { margin-top: 2rem; font-size: 1.1875rem; line-height: 1.25; font-weight: 600; }
+  .prose ul { padding-left: 0; list-style: none; }
+  .prose li { position: relative; padding-left: 1.5rem; }
+  .prose li + li { margin-top: 0.5rem; }
+  .prose li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.75rem; height: 1px; background: var(--color-accent); }
+  .prose a { text-decoration: underline; text-decoration-color: var(--color-line); text-underline-offset: 0.18em; }
+  .prose a:hover { text-decoration-color: var(--color-accent); }
+  .prose strong { font-weight: 600; }
+  .prose figure { max-width: none; }
+}
+
+/* ---------- Formular ---------- */
+@utility field {
+  width: 100%;
+  padding: 0.75rem 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-line-strong);
+  font: inherit;
+  color: var(--color-ink);
+  transition: border-color var(--duration-fast) var(--ease-out-brand), box-shadow var(--duration-fast) var(--ease-out-brand);
+}
+.field:focus { outline: none; box-shadow: 0 1px 0 0 var(--color-accent); border-color: var(--color-accent); }
+.field[aria-invalid="true"] { border-color: var(--color-error); }
+.field::placeholder { color: var(--color-muted); }
+@utility check {
+  appearance: none;
+  width: 1.125rem; height: 1.125rem;
+  border: 1px solid var(--color-ink);
+  display: inline-grid; place-content: center;
+  flex: none;
+  transition: background-color var(--duration-fast) var(--ease-out-brand);
+}
+/* Häkchen: gedrehtes L aus zwei Kanten in Papierfarbe */
+.check::before { content: ""; width: 0.3rem; height: 0.6rem; margin-top: -0.15rem; border: solid var(--color-paper); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg) scale(0); transition: transform var(--duration-fast) var(--ease-out-brand); }
+.check:checked { background: var(--color-ink); }
+.check:checked::before { transform: rotate(45deg) scale(1); }
+
+/* ---------- Eintritt (Hero): einmalig, kurz, ohne JavaScript ---------- */
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@utility enter { animation: rise 480ms var(--ease-out-brand) both; }
+.enter-2 { animation-delay: 70ms; }
+.enter-3 { animation-delay: 140ms; }
+.enter-4 { animation-delay: 210ms; }
+
+/* ---------- FAQ (native details) ---------- */
+details.faq > summary { list-style: none; cursor: pointer; }
+details.faq > summary::-webkit-details-marker { display: none; }
+details.faq > summary .faq-mark { transition: transform var(--duration-base) var(--ease-out-brand); }
+details.faq[open] > summary .faq-mark { transform: rotate(45deg); }

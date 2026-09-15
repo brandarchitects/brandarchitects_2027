@@ -15,6 +15,8 @@ export type * from "./types";
  * damit das Repo auch vor dem Sanity-Setup baut.
  */
 async function fetchContent<T>(query: string, params: Record<string, unknown>, tags: string[]): Promise<T | null> {
+  // Lokale Vorschau ohne Sanity: dieselben Abfragen über die Seed-Daten (lib/content/mock.ts). Nie auf Vercel gesetzt.
+  if (process.env.CONTENT_MOCK === "1") return (await import("./mock")).mockFetch<T>(query, params);
   if (!isSanityConfigured) return null;
   return client.fetch<T>(query, params, { next: { tags } });
 }

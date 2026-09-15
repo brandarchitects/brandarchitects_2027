@@ -46,7 +46,7 @@ Grundsatz: Wo 3.1 und 1.3 sich widersprechen, gilt 3.1 (CLAUDE.md). Wo 3.1 schwe
 | Standortbestimmung nur als nackter Link; soll Absatz mit Einordnung sein | 1.3 5.3 | ◐ Text im Seed |
 | Kontaktabschluss fehlte | 1.3 5.3 | ✅ |
 | Pro Bereich «passender Beleg» | 1.3 5.3 | ☐ Cases (Phase 4) |
-| KI erscheint gleichrangig mit den drei Bereichen; 1.3 sagt «ergänzend» | 1.3 5.3 | ➜ Design entscheidet Gewichtung im Layout |
+| KI erscheint gleichrangig mit den drei Bereichen; 1.3 sagt «ergänzend» | 1.3 5.3 | ✅ Design v1: Registerzeile «+» mit Label «Ergänzend», gedämpft |
 
 ## Leistungsseiten (4)
 

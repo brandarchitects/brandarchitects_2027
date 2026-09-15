@@ -2,37 +2,41 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { SiteSettings } from "@/lib/content/types";
 
-/** Modul 10: Footer – Agenturname, Leistungseinordnung, Adresse, E-Mail, Hauptseiten, Standortbestimmung, Impressum, Datenschutz, LinkedIn. */
+/**
+ * Modul 10: Footer – Agenturname, Leistungseinordnung, Adresse, E-Mail, Hauptseiten, Standortbestimmung,
+ * Impressum, Datenschutz, LinkedIn (Briefing Kap. 8.2). Steht auf Tinte und bildet mit dem Kontaktabschluss
+ * den dunklen Schluss jeder Seite (docs/design-spec.md, zweiter Signaturzug).
+ */
 export function Footer({ settings }: { settings: SiteSettings }) {
   const t = useTranslations("footer");
   const n = useTranslations("nav");
   return (
-    <footer className="mt-section border-t border-line">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-3">
-        <div>
-          <p className="font-semibold">{settings.brandName}</p>
-          <p className="text-muted">{settings.tagline}</p>
-          <address className="mt-4 not-italic text-muted">
+    <footer className="on-ink bg-ink text-paper">
+      <div className="site grid-12 border-t border-paper/20 py-14 md:py-20">
+        <div className="col-span-12 md:col-span-5">
+          <p className="wordmark">{settings.brandName}</p>
+          <p className="mt-2 text-paper/70">{settings.tagline}</p>
+          <address className="mt-8 not-italic text-paper/70">
             {settings.companyName}<br />
             {settings.street && <>{settings.street}<br /></>}
             {settings.zip} {settings.city}
           </address>
           {settings.email && (
-            <a href={`mailto:${settings.email}`} className="mt-2 block" data-track="email_click">{settings.email}</a>
+            <a href={`mailto:${settings.email}`} className="link mt-3 block" data-track="email_click">{settings.email}</a>
           )}
         </div>
-        <nav aria-label="Footer" className="flex flex-col gap-2">
-          <Link href="/arbeiten/">{n("work")}</Link>
-          <Link href="/leistungen/">{n("services")}</Link>
-          <Link href="/standortbestimmung/">{t("assessment")}</Link>
-          <Link href="/zusammenarbeit/">{n("collaboration")}</Link>
-          <Link href="/ueber-uns/">{n("about")}</Link>
-          <Link href="/kontakt/">{n("cta")}</Link>
+        <nav aria-label="Footer" className="col-span-6 flex flex-col gap-3 md:col-span-3 md:col-start-7">
+          <Link href="/arbeiten/" className="link">{n("work")}</Link>
+          <Link href="/leistungen/" className="link">{n("services")}</Link>
+          <Link href="/standortbestimmung/" className="link">{t("assessment")}</Link>
+          <Link href="/zusammenarbeit/" className="link">{n("collaboration")}</Link>
+          <Link href="/ueber-uns/" className="link">{n("about")}</Link>
+          <Link href="/kontakt/" className="link">{n("cta")}</Link>
         </nav>
-        <div className="flex flex-col gap-2">
-          <Link href="/impressum/">{t("imprint")}</Link>
-          <Link href="/datenschutz/">{t("privacy")}</Link>
-          {settings.linkedin && <a href={settings.linkedin} rel="noopener">{t("linkedin")}</a>}
+        <div className="col-span-6 flex flex-col gap-3 md:col-span-3">
+          <Link href="/impressum/" className="link">{t("imprint")}</Link>
+          <Link href="/datenschutz/" className="link">{t("privacy")}</Link>
+          {settings.linkedin && <a href={settings.linkedin} rel="noopener" className="link">{t("linkedin")}</a>}
         </div>
       </div>
     </footer>

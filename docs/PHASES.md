@@ -8,7 +8,7 @@ Reihenfolge nach Risiko (siehe docs/briefings/tech-briefing-v2.md Kap. 6). Eine 
 | 1 – Sanity live + Seed | Sanity-Projekt (Pascal), env in Vercel, Seed, Webhook, erster Deploy zeigt Inhalte | ✅ 15.09.2026 | Vercel-Projekt verknüpft, Sanity über Vercel-Integration, Seed per SEED_ON_BUILD, CORS, Webhook getestet. Live: https://brandarchitects2027.vercel.app |
 | 2 – Formular scharf | Resend-Konto direkt auf resend.com (nicht Vercel-Integration: verlangt Domain in Vercel und Bezahlplan für EU-Region), Domain verifiziert, API-Key in Vercel, Test-Anfrage im Postfach; ohne-JS-Pfad getestet | ☐ | braucht DNS-Zugriff; Region us-east-1 (Free) akzeptiert, siehe ADR-011 |
 | 2b – Seiten-Review | Jede Seite gegen Briefing 3.1 (Texte) und Struktur 1.3 (Gefässe/Module) prüfen; Bericht → Korrekturen in Seed/Studio und Templates | ◐ 15.09.2026 | Durchgang 1 erledigt: `docs/SEITEN-REVIEW.md`. Code- und Gefäss-Befunde umgesetzt; Redaktionsvorschläge (◐) und Pascal-Liste offen. Seed läuft automatisch (ADR-013) |
-| 3 – Design-System | `docs/design-spec.md` (swiss-design-brief) → Tokens, Schrift (next/font/local), alle 10 Module gestaltet, Motion sparsam | ◐ Start 15.09.2026 | **Startet jetzt**, parallel zu Phase 2 (Entscheid Pascal: Design kann Aufbau und Struktur beeinflussen, deshalb früh). Exploration im Claude-Projekt «BrandArchitects_Design» (docs/design/design-projekt-briefing.md); Abnahme durch Pascal |
+| 3 – Design-System | `docs/design-spec.md` → Tokens, Schrift (next/font/local), alle 10 Module gestaltet, Motion sparsam | ◐ v1 gebaut 15.09.2026 | Grundlage: Pascals «AI Design & Build Prompt» (ADR-014). v1 auf Branch `design/v1` mit Vorschau-URL; Spec in `docs/design-spec.md`. **Abnahme durch Pascal offen**, dann Merge nach main |
 | 4 – Leitcases | Geberit + TrustWork im Studio mit Bildern; Fallseiten-Template final | ☐ | Case-Inventar, Freigaben |
 | 5 – Inhalte final | Alle Seiten mit finalen Texten, Impressum/Datenschutz Endfassung, OG-Bilder | ☐ | |
 | 6 – SEO-Abnahme | Prüfliste docs/SEO.md; Redirects; Rich-Results-Test | ☐ | |
@@ -18,9 +18,9 @@ Reihenfolge nach Risiko (siehe docs/briefings/tech-briefing-v2.md Kap. 6). Eine 
 | 10 – Nach Launch | Google Business Profile, Anfragen-Liste, Messung | ☐ | |
 
 ## Bekannte Platzhalter (vor Launch entfernen)
-- `app/globals.css`: Design-Tokens (Farben, Schrift, Abstände)
-- `app/opengraph-image.tsx`: Gestaltung des Standardbilds
-- `public/fonts/`: lizenzierte Schriftdateien fehlen; Layout nutzt System-Schrift
+- `app/opengraph-image.tsx`: System-Grotesk statt Archivo (Satori liest kein woff2); Farben nach Spec
+- Wortmarke typografisch in Header/Footer, bis Logo (SVG) vorliegt
+- Hero-Projektausschnitt und Startseiten-Karten leer, bis Cases mit Bildern im Studio sind
 - Sanity: Impressum/Datenschutz enthalten «PLATZHALTER»-Text (Seed)
 - `siteSettings.email` leer (Seed) – im Studio setzen
 - `next.config.ts` → `redirects()` leer

@@ -43,3 +43,6 @@ next-env.d.ts
 # Sanity
 .sanity/
 dist/
+
+# Designstudien nur für die lokale Vorschau (scripts/mock-cases.ts)
+/public/design-study/

@@ -6,26 +6,27 @@ import type { Figure, Quote } from "@/lib/content/types";
 
 /**
  * Rendert Portable Text aus Sanity. Jeder Blocktyp aus sanity/schemaTypes/objects/portableText.ts
- * hat hier genau eine Darstellung. Neue Blocktypen: dort definieren, hier rendern.
+ * hat hier genau eine Darstellung; die Typografie kommt aus `.prose` in app/globals.css.
+ * `wide` hebt die Lesebreite auf (z. B. Anwendung auf der Fallseite mit grossen Bildern).
  */
 const components: PortableTextComponents = {
   block: {
-    normal: ({ children }) => <p className="mt-4 max-w-measure">{children}</p>,
-    h2: ({ children }) => <h2 className="mt-10 text-2xl font-semibold">{children}</h2>,
-    h3: ({ children }) => <h3 className="mt-8 text-xl font-semibold">{children}</h3>,
+    normal: ({ children }) => <p>{children}</p>,
+    h2: ({ children }) => <h2>{children}</h2>,
+    h3: ({ children }) => <h3>{children}</h3>,
   },
-  list: { bullet: ({ children }) => <ul className="mt-4 max-w-measure list-disc pl-6">{children}</ul> },
+  list: { bullet: ({ children }) => <ul>{children}</ul> },
   marks: {
     link: ({ value, children }) => <a href={value?.href} rel="noopener">{children}</a>,
     internalLink: ({ children }) => <span>{children}</span>, // Ziel-URL auflösen, sobald interne Links redaktionell genutzt werden
   },
   types: {
-    figure: ({ value }: { value: Figure }) => <div className="my-10"><FigureImage figure={value} /></div>,
-    quote: ({ value }: { value: Quote }) => <div className="my-10"><QuoteBlock quote={value} /></div>,
+    figure: ({ value }: { value: Figure }) => <div className="!mt-10 !mb-10"><FigureImage figure={value} /></div>,
+    quote: ({ value }: { value: Quote }) => <div className="!mt-10 !mb-10"><QuoteBlock quote={value} /></div>,
   },
 };
 
-export function PortableTextRenderer({ value }: { value?: PortableTextBlock[] }) {
+export function PortableTextRenderer({ value, wide = false }: { value?: PortableTextBlock[]; wide?: boolean }) {
   if (!value?.length) return null;
-  return <PortableText value={value} components={components} />;
+  return <div className={`prose ${wide ? "max-w-none [&>p]:max-w-[var(--max-width-measure)]" : ""}`}><PortableText value={value} components={components} /></div>;
 }

@@ -22,7 +22,17 @@
     "allWork": "Alle Arbeiten",
     "viewServices": "Leistungen ansehen",
     "howWeWork": "So arbeiten wir",
-    "about": "Über uns"
+    "about": "Über uns",
+    "labels": {
+      "work": "Ausgewählte Arbeiten",
+      "situations": "Situationen",
+      "services": "Leistungen",
+      "complementary": "Ergänzend",
+      "assessment": "Standortbestimmung",
+      "collaboration": "Zusammenarbeit",
+      "agency": "Agentur",
+      "contact": "Kontakt"
+    }
   },
   "work": {
     "task": "Aufgabe",
@@ -44,7 +54,8 @@
       "preserved": "Was bewusst blieb",
       "application": "Anwendung",
       "result": "Ergebnis"
-    }
+    },
+    "empty": "Die ersten Fallseiten werden aufbereitet. Fragen Sie uns nach passenden Arbeiten."
   },
   "contact": {
     "name": "Name",
@@ -74,7 +85,8 @@
     },
     "closeTitle": "Was steht bei Ihrem Unternehmen an?",
     "contactPersonLabel": "Ihr Ansprechpartner",
-    "orByEmail": "oder per E-Mail:"
+    "orByEmail": "oder per E-Mail:",
+    "addressLabel": "Adresse"
   },
   "faq": {
     "title": "Fragen zur Zusammenarbeit"
@@ -96,5 +108,8 @@
   "empty": {
     "title": "Rohbau",
     "text": "Sanity ist noch nicht verbunden oder das Dokument «Startseite» fehlt. Anleitung: docs/SANITY.md."
+  },
+  "process": {
+    "clientInvolvement": "Ihre Mitwirkung"
   }
 }
