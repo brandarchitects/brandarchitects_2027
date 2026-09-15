@@ -50,3 +50,8 @@ Format: Kontext → Entscheid → Konsequenzen. Neue Entscheide unten anfügen, 
 **Kontext:** Die Vercel-Integration für Resend verlangt eine bereits in Vercel hinterlegte Domain und für die EU-Region (eu-west-1) einen Bezahlplan (~USD 20/Monat). Das Formular versendet wenige Anfragen; Resend leitet nur durch, speichert nichts bei uns.
 **Entscheid (Pascal):** Resend wird in Phase 2 direkt auf resend.com eingerichtet, Free-Plan, Region us-east-1. Vercel-Integration nicht verwendet.
 **Konsequenzen:** Datenschutzerklärung nennt Resend (USA, Standardvertragsklauseln). Regionswechsel später gegen Aufpreis möglich. `RESEND_API_KEY` wird von Hand in Vercel gesetzt.
+
+## ADR-012 · Design-Exploration startet parallel zu Phase 2, Seiten-Review davor (15.09.2026)
+**Kontext:** Der Bauplan sah Design als Phase 3 nach dem Formular vor. Pascal: Gestaltung kann Aufbau und Struktur der Seiten verändern, und alle Seiten sollen nochmals auf Texte und Gefässe geprüft werden.
+**Entscheid (Pascal):** Design-Runde 0 und 1 (Haltung, drei Richtungen) beginnen sofort im separaten Design-Projekt. Ein Seiten-Review (Phase 2b) prüft jede Seite gegen Briefing 3.1 und Struktur 1.3, bevor Inhalte finalisiert werden. Strukturänderungen aus dem Design werden über `docs/design-spec.md` und ggf. neue ADRs ins Code-Projekt übernommen; die Sitemap (Briefing Kap. 8.2) bleibt unverändert.
+**Konsequenzen:** Phase 2 (Resend/DNS) läuft unabhängig weiter. Module bleiben Server-Komponenten mit Tokens, damit Design-Versionen als Branches vergleichbar sind.
