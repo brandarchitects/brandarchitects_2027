@@ -9,12 +9,14 @@ Das Datenmodell («Schema») definieren wir im Code. Das ist der Grund, warum Sa
 
 ## Einmalige Einrichtung (Pascal, ca. 20 Minuten)
 
+**Stand 15.09.2026:** Schritte 1, 2, 4 und 5 sind über die Vercel-Sanity-Integration erledigt (Projekt angelegt, `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `SANITY_API_WRITE_TOKEN`, `SANITY_API_READ_TOKEN` in Vercel gesetzt). Offen: 3 (CORS), 6 (Seed), 7 (Webhook) sowie von Hand `NEXT_PUBLIC_SANITY_API_VERSION`, `NEXT_PUBLIC_SITE_URL`, `SANITY_REVALIDATE_SECRET`, `CONTACT_TO`, `CONTACT_FROM`.
+
 1. **Konto und Projekt:** https://www.sanity.io → Sign up (mit GitHub oder Google) → «Create new project» → Name `brandarchitects`, Dataset `production`, Region **EU**. Free-Plan.
 2. **Projekt-ID notieren:** Manage → Project → API → *Project ID*.
 3. **CORS-Origins eintragen** (damit das Studio auf brandarchitects.ch und localhost läuft): Manage → API → CORS origins → `http://localhost:3000` und `https://brandarchitects.ch` (mit «Allow credentials»). Später auch die Vercel-Preview-Domain `https://*.vercel.app` bzw. die konkrete.
 4. **Schreib-Token für das Seed-Skript:** Manage → API → Tokens → «Add API token», Name `seed`, Rolle **Editor**. Wert nur in `.env.local` – nie committen, nie in Vercel als NEXT_PUBLIC.
 5. **Umgebungsvariablen setzen:** lokal in `.env.local`, in Vercel unter Settings → Environment Variables (siehe `.env.example`).
-6. **Erstbefüllung:** `npm run seed` – legt Startseite, vier Leistungen, Seiten, FAQ und Website-Einstellungen mit den Briefing-Texten an. Idempotent (mehrfach ausführbar).
+6. **Erstbefüllung:** lokal `npx vercel link` (Projekt brandarchitects_2027 wählen), `npx vercel env pull .env.local`, dann `npm run seed` – legt Startseite, vier Leistungen, Seiten, FAQ und Website-Einstellungen mit den Briefing-Texten an. Idempotent (mehrfach ausführbar). Der Token kommt aus Vercel, nichts wird von Hand kopiert.
 7. **Webhook für Revalidation:** Manage → API → Webhooks → Create:
    - URL `https://brandarchitects.ch/api/revalidate`
    - Dataset `production`, Trigger on: create, update, delete

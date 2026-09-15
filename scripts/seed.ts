@@ -1,6 +1,7 @@
 /**
  * Erstbefüllung von Sanity mit den Website-Texten aus docs/briefings/briefing-3-1.md.
- * Ausführen: npm run seed  (braucht SANITY_WRITE_TOKEN in .env.local)
+ * Ausführen: npm run seed  (braucht einen Editor-Token: SANITY_API_WRITE_TOKEN aus der Vercel-Sanity-Integration
+ * – per `npx vercel env pull .env.local` geholt – oder manuell SANITY_WRITE_TOKEN in .env.local)
  * Idempotent: feste _ids, createOrReplace – mehrfaches Ausführen überschreibt dieselben Dokumente.
  * Cases werden NICHT geseedet (brauchen Bilder und Freigaben) – die legt Pascal im Studio an.
  */
@@ -20,7 +21,7 @@ const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   apiVersion: "2026-09-15",
-  token: process.env.SANITY_WRITE_TOKEN,
+  token: process.env.SANITY_API_WRITE_TOKEN ?? process.env.SANITY_WRITE_TOKEN,
   useCdn: false,
 });
 
@@ -129,7 +130,7 @@ const siteSettings = {
 };
 
 async function main() {
-  if (!process.env.SANITY_WRITE_TOKEN) throw new Error("SANITY_WRITE_TOKEN fehlt (.env.local)");
+  if (!process.env.SANITY_API_WRITE_TOKEN && !process.env.SANITY_WRITE_TOKEN) throw new Error("Schreibtoken fehlt: SANITY_API_WRITE_TOKEN (vercel env pull) oder SANITY_WRITE_TOKEN in .env.local");
   const tx = client.transaction();
   for (const doc of [...faqs, ...services, ...pages, home, siteSettings]) tx.createOrReplace(doc as never);
   const res = await tx.commit();
