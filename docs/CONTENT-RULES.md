@@ -1,6 +1,6 @@
 # Sprach- und Inhaltsregeln
 
-Quelle: docs/briefing-3-1.md, Kap. 6.3 und 7. Gilt für alle Texte – auch Alt-Texte, Meta-Descriptions, Fehlermeldungen, Commit-Kommentare im Content.
+Quelle: docs/briefings/briefing-3-1.md, Kap. 6.3 und 7. Gilt für alle Texte – auch Alt-Texte, Meta-Descriptions, Fehlermeldungen, Commit-Kommentare im Content.
 
 ## Sprache
 - Schweizer Hochdeutsch, **ss** statt ß, konsequent **Sie**

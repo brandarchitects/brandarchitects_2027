@@ -36,9 +36,13 @@ npm run dev                    # http://localhost:3000  ·  Studio: http://local
 | `CONTENT-RULES.md` | Sprache, Sperrliste, Referenzregeln (aus Briefing 3.1) |
 | `PHASES.md` | Bauplan in Phasen, Stand, offene Punkte |
 | `REDIRECTS.md` | Inventar alter URLs → neue Ziele |
-| `briefing-3-1.md` | Inhaltliches Briefing (verbindlich) |
-| `struktur-1-3.md` | Struktur-Briefing: Module, Formular, Abnahme |
-| `tech-briefing.md` | Technisches Briefing (Ausgangsdokument) |
+| `briefings/briefing-3-1.md` | Inhaltliches Briefing (verbindlich) |
+| `briefings/struktur-1-3.md` | Struktur-Briefing: Module, Formular, Abnahme |
+| `briefings/strategie-2-2.md` | Berater-Briefing Strategie (Vorstufe) |
+| `briefings/marktanalyse-2026.md` | Marktanalyse Agenturen Aargau/Zürich |
+| `briefings/tech-briefing-v2.md` | Technisches Briefing (Ausgangsdokument) |
+| `design/design-projekt-briefing.md` | Briefing für die Design-Exploration (eigenes Claude-Projekt) |
+| `design/design-spec-vN.md` | Design-Spezifikationen pro Version (Übergabe an Code) |
 
 ## Deployment
 

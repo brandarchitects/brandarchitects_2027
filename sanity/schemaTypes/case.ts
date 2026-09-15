@@ -1,7 +1,7 @@
 import { defineField, defineType } from "sanity";
 
 /**
- * Case (Arbeit). Struktur verbindlich aus docs/briefing-3-1.md Kap. 6.4/6.5:
+ * Case (Arbeit). Struktur verbindlich aus docs/briefings/briefing-3-1.md Kap. 6.4/6.5:
  * Situation → offene Frage → eigener Auftrag → Entscheid → bewahrt → Anwendung → Ergebnis → Rolle und Partner.
  * Ein Dokument speist Projektkarte, Startseiten-Auswahl und Fallseite.
  */

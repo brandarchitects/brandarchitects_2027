@@ -1,6 +1,6 @@
 # Bauplan und Stand
 
-Reihenfolge nach Risiko (siehe docs/tech-briefing.md Kap. 6). Eine Phase = ein Branch. Status hier nachführen.
+Reihenfolge nach Risiko (siehe docs/briefings/tech-briefing-v2.md Kap. 6). Eine Phase = ein Branch. Status hier nachführen.
 
 | Phase | Ziel | Status | Bemerkung |
 |---|---|---|---|

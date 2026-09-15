@@ -8,8 +8,8 @@ Pascal Frey (Inhaber, Creative Director) ist kein Entwickler: erkläre Entscheid
 ## Zuerst lesen
 - `docs/PHASES.md` – wo wir stehen, was als Nächstes kommt
 - `docs/ARCHITECTURE.md` – wie das Projekt aufgebaut ist
-- `docs/briefing-3-1.md` – Inhalte, Sitemap, Website-Texte, Abnahmekriterien (inhaltlich verbindlich)
-- `docs/struktur-1-3.md` – Module, Formular, Abnahmeliste
+- `docs/briefings/briefing-3-1.md` – Inhalte, Sitemap, Website-Texte, Abnahmekriterien (inhaltlich verbindlich)
+- `docs/briefings/struktur-1-3.md` – Module, Formular, Abnahmeliste
 - `docs/CONTENT-RULES.md` – Sprache, Sperrliste, Referenzregeln
 - `docs/SEO.md`, `docs/I18N.md`, `docs/SANITY.md` – je nach Aufgabe
 - `docs/design-spec.md` – sobald vorhanden (Phase 3): gestalterisch verbindlich

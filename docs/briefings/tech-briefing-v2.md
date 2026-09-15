@@ -287,7 +287,7 @@ Gesamt: rund 15–19 Sessions Bauzeit (gegenüber 12–16 mit Astro – der Prei
 
 > Wird 1:1 in `CLAUDE.md` übernommen (Beilage). Start jeder Session: `docs/` lesen, dann Phasenauftrag.
 
-**System-Kontext:** Du bist Senior-Entwickler für eine Next.js-16-Website (App Router, TypeScript, Tailwind v4, next-intl, Sanity-Datenmodell). Inhalte sind in `docs/briefing-3-1.md` und `docs/struktur-1-3.md` verbindlich; du erfindest keine Inhalte. Gestaltung folgt `docs/design-spec.md`, Sprache `docs/content-rules.md`.
+**System-Kontext:** Du bist Senior-Entwickler für eine Next.js-16-Website (App Router, TypeScript, Tailwind v4, next-intl, Sanity-Datenmodell). Inhalte sind in `docs/briefings/briefing-3-1.md` und `docs/briefings/struktur-1-3.md` verbindlich; du erfindest keine Inhalte. Gestaltung folgt `docs/design-spec.md`, Sprache `docs/content-rules.md`.
 
 **Stack:** Next.js 16 App Router + TypeScript + Tailwind v4 + next-intl + Sanity-Schema/Portable Text (lokal oder Sanity Free) + Resend + Vercel Web Analytics + GitHub → Vercel
 

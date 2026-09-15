@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 /**
  * SEO-Felder, an jedes Dokument mit eigener URL angehängt.
- * Title/Description-Vorgaben: docs/briefing-3-1.md Kap. 8.10 und docs/struktur-1-3.md Kap. 8.
+ * Title/Description-Vorgaben: docs/briefings/briefing-3-1.md Kap. 8.10 und docs/briefings/struktur-1-3.md Kap. 8.
  */
 export const seo = defineType({
   name: "seo",

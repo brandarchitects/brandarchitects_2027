@@ -1,5 +1,5 @@
 /**
- * Erstbefüllung von Sanity mit den Website-Texten aus docs/briefing-3-1.md.
+ * Erstbefüllung von Sanity mit den Website-Texten aus docs/briefings/briefing-3-1.md.
  * Ausführen: npm run seed  (braucht SANITY_WRITE_TOKEN in .env.local)
  * Idempotent: feste _ids, createOrReplace – mehrfaches Ausführen überschreibt dieselben Dokumente.
  * Cases werden NICHT geseedet (brauchen Bilder und Freigaben) – die legt Pascal im Studio an.
