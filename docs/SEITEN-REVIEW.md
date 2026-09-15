@@ -119,4 +119,4 @@ Grundsatz: Wo 3.1 und 1.3 sich widersprechen, gilt 3.1 (CLAUDE.md). Wo 3.1 schwe
 7. Porträt ja/nein
 
 ## Nach dem Review nötig
-- Seed erneut ausführen (`SEED_ON_BUILD=1` → Redeploy → Variable löschen), damit die neuen Felder und die drei neuen Seitendokumente in Sanity landen. **Achtung:** überschreibt Studio-Änderungen an den geseedeten Dokumenten.
+- Nichts von Hand: Der Seed läuft beim nächsten Build automatisch und schreibt neue Felder und die drei neuen Seitendokumente nach Sanity, ohne Studio-Änderungen zu überschreiben (ADR-013).

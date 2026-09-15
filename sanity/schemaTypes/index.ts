@@ -7,6 +7,7 @@ import { pageType, processStep } from "./page";
 import { homeType } from "./home";
 import { faqType } from "./faq";
 import { siteSettingsType } from "./siteSettings";
+import { seedMetaType } from "./seedMeta";
 
 /** Alle Dokument- und Objekttypen. Neue Typen hier registrieren. */
 export const schemaTypes: SchemaTypeDefinition[] = [
@@ -14,6 +15,8 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   seo, portableText, figure, quote, processStep,
   // Dokumente
   homeType, caseType, serviceType, pageType, faqType, siteSettingsType,
+  // Technisch (Seed-Skript), nicht in der Studio-Struktur
+  seedMetaType,
 ];
 
 /** Dokumenttypen, die pro Sprache existieren (document-internationalization) */

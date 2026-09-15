@@ -1,12 +1,16 @@
 /**
- * Erstbefüllung von Sanity mit den Website-Texten aus docs/briefings/briefing-3-1.md.
- * Zwei Wege:
- *  1. Beim Vercel-Build (ohne lokale Umgebung): Variable SEED_ON_BUILD=1 in Vercel setzen, Redeploy, danach Variable
- *     wieder löschen. `npm run build` ruft dieses Skript per `prebuild` mit --only-if-enabled auf; ohne SEED_ON_BUILD=1
- *     passiert nichts. Token kommt aus SANITY_API_WRITE_TOKEN (Vercel-Sanity-Integration).
- *  2. Lokal: npm run seed (Token per `npx vercel env pull .env.local` oder manuell SANITY_WRITE_TOKEN in .env.local)
- * Idempotent: feste _ids, createOrReplace – mehrfaches Ausführen überschreibt dieselben Dokumente.
- * Cases werden NICHT geseedet (brauchen Bilder und Freigaben) – die legt Pascal im Studio an.
+ * Erstbefüllung und Abgleich von Sanity mit den Website-Texten aus docs/briefings/briefing-3-1.md.
+ *
+ * Läuft automatisch bei jedem Build (package.json → prebuild), sobald ein Schreibtoken vorhanden ist
+ * (SANITY_API_WRITE_TOKEN aus der Vercel-Sanity-Integration). Ohne Token wird stumm übersprungen.
+ *
+ * Schutz der Redaktion: Nach jedem Lauf merkt sich das Skript die Versionsnummer (_rev) jedes geschriebenen
+ * Dokuments im Meta-Dokument «seedMeta». Beim nächsten Lauf gilt pro Dokument:
+ *  - fehlt es → anlegen
+ *  - _rev unverändert (seit dem Seed niemand im Studio dran) → mit dem aktuellen Seed-Stand ersetzen
+ *  - _rev verändert (im Studio bearbeitet) → nur fehlende neue Felder ergänzen (setIfMissing), Texte bleiben
+ * Steuerung: SEED_MODE=off (nichts tun) · SEED_MODE=replace (alles überschreiben, auch Studio-Änderungen – bewusst!).
+ * Lokal: npm run seed (Token in .env.local). Cases werden NICHT geseedet – die legt Pascal im Studio an.
  */
 import { createClient } from "@sanity/client";
 import { randomUUID } from "node:crypto";
@@ -181,16 +185,51 @@ const siteSettings = {
   llmSummary: "Brand Architects ist eine Markenberatung mit gestalterischer und digitaler Umsetzung in Würenlos (Aargau) für Unternehmen im Aargau, in Zürich und darüber hinaus. Die Agentur klärt Positionierung und Botschaften und übersetzt sie in Corporate Design, Websites und KI-gestützte Content-Prozesse, mit denen das Team des Kunden im Alltag arbeitet. Geführt von Pascal Frey, seit über sieben Jahren, mit einem Netzwerk erfahrener Spezialisten.",
 };
 
+const SEED_META_ID = `seedMeta-${L}`;
+
 async function main() {
-  if (process.argv.includes("--only-if-enabled") && process.env.SEED_ON_BUILD !== "1") {
-    console.log("seed: übersprungen (SEED_ON_BUILD nicht gesetzt)");
-    return;
-  }
+  const mode = process.env.SEED_MODE ?? "sync";
+  const onBuild = process.argv.includes("--only-if-enabled");
+  const hasToken = Boolean(process.env.SANITY_API_WRITE_TOKEN ?? process.env.SANITY_WRITE_TOKEN);
+  if (mode === "off") return console.log("seed: SEED_MODE=off – übersprungen");
+  if (onBuild && (!hasToken || !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID)) return console.log("seed: kein Token/Projekt – übersprungen");
   if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) throw new Error("NEXT_PUBLIC_SANITY_PROJECT_ID fehlt");
-  if (!process.env.SANITY_API_WRITE_TOKEN && !process.env.SANITY_WRITE_TOKEN) throw new Error("Schreibtoken fehlt: SANITY_API_WRITE_TOKEN (Vercel-Sanity-Integration) oder SANITY_WRITE_TOKEN in .env.local");
-  const tx = makeClient().transaction();
-  for (const doc of [...faqs, ...services, ...pages, home, siteSettings]) tx.createOrReplace(doc as never);
-  const res = await tx.commit();
-  console.log(`✓ ${res.results.length} Dokumente geschrieben. Jetzt im Studio prüfen: /studio`);
+  if (!hasToken) throw new Error("Schreibtoken fehlt: SANITY_API_WRITE_TOKEN (Vercel-Sanity-Integration) oder SANITY_WRITE_TOKEN in .env.local");
+
+  const client = makeClient();
+  const docs = [...faqs, ...services, ...pages, home, siteSettings] as Array<{ _id: string } & Record<string, unknown>>;
+  const ids = docs.map((d) => d._id);
+
+  // Stand in Sanity: aktuelle _rev pro Dokument und die beim letzten Seed gemerkten _revs
+  const [existing, meta] = await Promise.all([
+    client.fetch<{ _id: string; _rev: string }[]>(`*[_id in $ids]{ _id, _rev }`, { ids }),
+    client.fetch<{ revs?: Record<string, string> } | null>(`*[_id == $id][0]{ revs }`, { id: SEED_META_ID }),
+  ]);
+  const currentRev = new Map(existing.map((d) => [d._id, d._rev]));
+  const seededRev: Record<string, string> = meta?.revs ?? {};
+  // Erster Lauf mit diesem Mechanismus (kein seedMeta): bis hier hat nur der Seed geschrieben → alles aktualisieren
+  const bootstrap = !meta;
+
+  const tx = client.transaction();
+  const stats = { created: [] as string[], replaced: [] as string[], patched: [] as string[] };
+  for (const doc of docs) {
+    const rev = currentRev.get(doc._id);
+    if (!rev) { tx.createOrReplace(doc as never); stats.created.push(doc._id); continue; }
+    const untouched = seededRev[doc._id] === rev;
+    if (mode === "replace" || bootstrap || untouched) { tx.createOrReplace(doc as never); stats.replaced.push(doc._id); continue; }
+    // Im Studio bearbeitet: nur neue Felder ergänzen, bestehende Werte nicht anfassen
+    const { _id, _type, ...fields } = doc;
+    void _type;
+    tx.patch(_id, (p) => p.setIfMissing(fields as never));
+    stats.patched.push(_id);
+  }
+  const res = await tx.commit({ returnDocuments: true });
+
+  // _revs der jetzt geschriebenen Dokumente merken – Grundlage für den Schutz beim nächsten Lauf
+  const revs: Record<string, string> = { ...seededRev };
+  for (const d of (res as unknown as { _id: string; _rev: string }[])) if (ids.includes(d._id)) revs[d._id] = d._rev;
+  await client.createOrReplace({ _id: SEED_META_ID, _type: "seedMeta", revs } as never);
+
+  console.log(`✓ seed: ${stats.created.length} angelegt, ${stats.replaced.length} aktualisiert, ${stats.patched.length} nur ergänzt (im Studio bearbeitet${stats.patched.length ? ": " + stats.patched.join(", ") : ""}).`);
 }
 main().catch((e) => { console.error(e); process.exit(1); });

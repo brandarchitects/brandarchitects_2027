@@ -55,3 +55,8 @@ Format: Kontext → Entscheid → Konsequenzen. Neue Entscheide unten anfügen, 
 **Kontext:** Der Bauplan sah Design als Phase 3 nach dem Formular vor. Pascal: Gestaltung kann Aufbau und Struktur der Seiten verändern, und alle Seiten sollen nochmals auf Texte und Gefässe geprüft werden.
 **Entscheid (Pascal):** Design-Runde 0 und 1 (Haltung, drei Richtungen) beginnen sofort im separaten Design-Projekt. Ein Seiten-Review (Phase 2b) prüft jede Seite gegen Briefing 3.1 und Struktur 1.3, bevor Inhalte finalisiert werden. Strukturänderungen aus dem Design werden über `docs/design-spec.md` und ggf. neue ADRs ins Code-Projekt übernommen; die Sitemap (Briefing Kap. 8.2) bleibt unverändert.
 **Konsequenzen:** Phase 2 (Resend/DNS) läuft unabhängig weiter. Module bleiben Server-Komponenten mit Tokens, damit Design-Versionen als Branches vergleichbar sind.
+
+## ADR-013 · Seed läuft bei jedem Build, schützt Studio-Änderungen (15.09.2026)
+**Kontext:** Der Seed über `SEED_ON_BUILD=1` verlangte pro Inhaltsänderung im Code drei manuelle Schritte in Vercel und überschrieb Studio-Änderungen. Pascal: nicht haltbar.
+**Entscheid:** `scripts/seed.ts` läuft vor jedem Build ohne Schalter. Es merkt sich pro Dokument die `_rev` nach dem Seed (Dokument `seedMeta`). Unveränderte Dokumente werden mit dem Seed-Stand aktualisiert, im Studio bearbeitete nur um fehlende Felder ergänzt. `SEED_MODE=replace|off` als bewusste Ausnahme.
+**Konsequenzen:** Redaktion im Studio ist ab dem ersten Publish die Quelle für diesen Text; der Seed liefert Struktur und Ausgangstexte. Zwei Sanity-Requests pro Build (Quota unkritisch). Cases bleiben ausserhalb des Seeds.
