@@ -25,6 +25,9 @@ Reihenfolge nach Risiko (siehe docs/briefings/tech-briefing-v2.md Kap. 6). Eine 
 - `next.config.ts` → `redirects()` leer
 - `components/modules/Header.tsx`: Sprachschalter erst mit Sprache 2
 
+## Offene technische Punkte
+- Vercel: `NEXT_PUBLIC_SANITY_API_VERSION`, `NEXT_PUBLIC_SITE_URL`, `CONTACT_TO`, `SANITY_REVALIDATE_SECRET` gelten nur für Production. Vor Phase 3 (Design-Branches mit Preview-URLs) auf Preview erweitern; Code hat Rückfallwerte, daher nicht blockierend.
+
 ## Offene Entscheide (Pascal)
 - Zweite Sprache: EN oder FR?
 - Schrift mit Web-Lizenz
