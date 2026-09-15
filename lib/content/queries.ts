@@ -16,7 +16,7 @@ const faq = `{ _id, question, answer }`;
 
 export const homeQuery = defineQuery(`*[_type == "home" && language == $locale][0]{
   heroKicker, heroHeadline, heroText, heroImage ${figure},
-  workTitle, situationsTitle, situations[]{ title, text }, servicesTitle, aiLine,
+  workTitle, stats[]{ value, suffix, label }, situationsTitle, situations[]{ title, text }, servicesTitle, aiLine,
   assessmentTitle, assessmentText, assessmentNote, collaborationTitle, collaborationText,
   steps[]{ title, text, clientInvolvement }, timeframe, agencyTitle, agencyText, contactTitle, contactText, ${seo}
 }`);

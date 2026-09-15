@@ -37,7 +37,7 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/leis
             {page?.intro && <p className="lead mt-8 max-w-[var(--max-width-measure)] text-muted">{page.intro}</p>}
           </div>
         </header>
-        <div className="mt-[var(--spacing-section)] border-b border-line">
+        <div className="mt-[var(--spacing-section)] border-b border-line" data-reveal>
           {main.map((s, i) => <ServiceModule key={s._id} index={String(i + 1).padStart(2, "0")} title={s.title} text={s.teaser} href={`/leistungen/${s.slug}/`} />)}
           {ai && <ServiceModule index="+" title={ai.title} text={ai.teaser} href={`/leistungen/${ai.slug}/`} note={th("labels.complementary")} tone="muted" />}
         </div>

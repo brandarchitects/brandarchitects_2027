@@ -32,7 +32,8 @@
       "collaboration": "Zusammenarbeit",
       "agency": "Agentur",
       "contact": "Kontakt"
-    }
+    },
+    "reel": "Brand Reel: Ausschnitte aus Arbeiten von Brand Architects"
   },
   "work": {
     "task": "Aufgabe",
@@ -55,7 +56,8 @@
       "application": "Anwendung",
       "result": "Ergebnis"
     },
-    "empty": "Die ersten Fallseiten werden aufbereitet. Fragen Sie uns nach passenden Arbeiten."
+    "empty": "Die ersten Fallseiten werden aufbereitet. Fragen Sie uns nach passenden Arbeiten.",
+    "view": "Case ansehen"
   },
   "contact": {
     "name": "Name",

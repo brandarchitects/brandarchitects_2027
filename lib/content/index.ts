@@ -15,8 +15,10 @@ export type * from "./types";
  * damit das Repo auch vor dem Sanity-Setup baut.
  */
 async function fetchContent<T>(query: string, params: Record<string, unknown>, tags: string[]): Promise<T | null> {
-  // Lokale Vorschau ohne Sanity: dieselben Abfragen über die Seed-Daten (lib/content/mock.ts). Nie auf Vercel gesetzt.
-  if (process.env.CONTENT_MOCK === "1") return (await import("./mock")).mockFetch<T>(query, params);
+  // Design-Demo ohne Sanity: dieselben Abfragen über die Seed-Daten plus gekennzeichnete Platzhalter-Cases
+  // (lib/content/mock.ts). Aktiv lokal mit CONTENT_MOCK=1 und auf allen Vercel-Preview-Deploys (Branches).
+  // Production liest immer Sanity. Entscheid Pascal: Design zuerst an Demo-Inhalten beurteilen (ADR-015).
+  if (process.env.CONTENT_MOCK === "1" || (process.env.VERCEL_ENV === "preview" && process.env.CONTENT_MOCK !== "0")) return (await import("./mock")).mockFetch<T>(query, params);
   if (!isSanityConfigured) return null;
   return client.fetch<T>(query, params, { next: { tags } });
 }

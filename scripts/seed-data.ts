@@ -126,6 +126,8 @@ export const home = {
   heroHeadline: "Ihr Unternehmen ist weiter. Jetzt muss Ihre Marke mit.",
   heroText: "Ihr Angebot hat sich verändert, Ihre Marke erzählt noch die alte Geschichte? Brand Architects klärt Ihre Positionierung und übersetzt sie in Sprache, Design und digitale Anwendungen. Damit Kunden verstehen, wofür sie Ihr Unternehmen heute wählen sollen.",
   workTitle: "Welche Aufgabe hinter dem Auftritt stand.",
+  // Zahlenzeile: nur Grössen aus Briefing 3.1 (Kap. 0, 4.3, 8.3 Modul 6)
+  stats: [key({ value: 20, suffix: "+", label: "Jahre Markenarbeit" }), key({ value: 7, suffix: "+", label: "Jahre Brand Architects" }), key({ value: 4, suffix: "", label: "Schritte bis zur Einführung" })],
   situationsTitle: "Was sich im Unternehmen verändert hat, soll im Markt ankommen.",
   situations: [
     key({ title: "Das Angebot ist gewachsen.", text: "Kunden sollen schneller verstehen, welche Leistung zu ihrer Aufgabe passt und was Ihr Unternehmen auszeichnet." }),

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Platzhalter-Keyvisual Socar">
+<rect width="1600" height="1000" fill="#121212"/>
+<g stroke="#2a2a28" stroke-width="2"><line x1="100" y1="0" x2="100" y2="1000"/><line x1="800" y1="0" x2="800" y2="1000"/><line x1="1500" y1="0" x2="1500" y2="1000"/><line x1="0" y1="120" x2="1600" y2="120"/><line x1="0" y1="880" x2="1600" y2="880"/></g>
+<rect x="100" y="120" width="304" height="40" fill="#d9451c"/>
+<text x="100" y="90" font-family="Helvetica, Arial, sans-serif" font-size="30" letter-spacing="4" fill="#8b8a84">CASE 03</text>
+<text x="1500" y="90" text-anchor="end" font-family="Helvetica, Arial, sans-serif" font-size="30" letter-spacing="4" fill="#d9451c">FRÜHERE AGENTURARBEIT</text>
+<text x="100" y="800" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="150" letter-spacing="-5" fill="#f7f6f2">Socar</text>
+<text x="100" y="950" font-family="Helvetica, Arial, sans-serif" font-size="26" letter-spacing="2" fill="#8b8a84">PLATZHALTER-KEYVISUAL — WIRD DURCH PROJEKTBILD ERSETZT</text>
+</svg>

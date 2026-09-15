@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { getFeaturedCases, getHome, getServices, getSiteSettings } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { Hero } from "@/components/modules/Hero";
+import { Reel } from "@/components/modules/Reel";
 import { ProjectCard } from "@/components/modules/ProjectCard";
 import { ServiceModule } from "@/components/modules/ServiceModule";
 import { ProcessSteps } from "@/components/modules/ProcessSteps";
@@ -14,10 +15,10 @@ import { Arrow } from "@/components/ui/Arrow";
 
 /**
  * Startseite – acht Module in fester Reihenfolge (Briefing 3.1 Kap. 8.3, Struktur 1.3 Kap. 4).
- * Komposition (docs/design-spec.md): Register-Köpfe mit schmaler Ziffer geben den Takt; die Module wechseln
- * die Form – zwei asymmetrische Projektkarten, drei Situationen als Zeilen, Leistungen als typografischer Index,
- * die Standortbestimmung auf zweiter Papierfläche, der Kontakt auf Tinte. Keine drei gleichen Karten.
- * Inhalte aus dem Dokument "home"; Cases und Leistungen automatisch.
+ * Dramaturgie v2 (docs/design-spec.md): Hero mit maskierten Zeilen → Brand Reel, das sich beim Scrollen weitet →
+ * die Arbeit gross (erste Kachel volle Breite, zweite versetzt) → Zahlenzeile mit Count-up → Situationen →
+ * Leistungen als Index mit Vermillon-Ziffern → Standortbestimmung auf zweiter Fläche → Zusammenarbeit → Agentur →
+ * Kontakt auf Tinte. Sektionen erscheinen beim Einscrollen (data-reveal, components/motion/MotionLayer.tsx).
  */
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
@@ -42,17 +43,18 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   return (
     <>
       {/* Modul 1 – «Arbeiten ansehen» springt zum Projektmodul, sobald es eines gibt (Struktur 1.3 Modul 1) */}
-      <Hero kicker={home.heroKicker} headline={home.heroHeadline} text={home.heroText} image={home.heroImage}
+      <Hero kicker={home.heroKicker} headline={home.heroHeadline} text={home.heroText}
         primary={{ href: "/kontakt/", label: tn("cta") }} secondary={{ href: cases.length > 0 ? "#arbeiten" : "/arbeiten/", label: t("viewWork") }} />
+      <Reel label={t("reel")} />
 
-      {/* Modul 2 – zwei Karten, asymmetrisch: 7 + 5 Spalten, die zweite rückt nach unten */}
+      {/* Modul 2 – die Arbeit gross: erste Kachel volle Breite, zweite versetzt auf 7 Spalten */}
       {cases.length > 0 && (
-        <section id="arbeiten" className="site scroll-mt-24">
-          <SectionHead index="01" label={t("labels.work")} title={home.workTitle} />
-          <div className="grid-12 mt-[var(--spacing-group)] gap-y-16">
+        <section id="arbeiten" className={`site ${gap} scroll-mt-24`}>
+          <div data-reveal><SectionHead index="01" label={t("labels.work")} title={home.workTitle} /></div>
+          <div className="grid-12 mt-[var(--spacing-group)] gap-y-16 md:gap-y-24">
             {cases.map((c, i) => (
-              <div key={c._id} className={i === 0 ? "col-span-12 md:col-span-7" : "col-span-12 md:col-span-5 md:mt-24"}>
-                <ProjectCard item={c} priority={i === 0} />
+              <div key={c._id} data-reveal className={i === 0 ? "col-span-12" : "col-span-12 md:col-span-7 md:col-start-6"}>
+                <ProjectCard item={c} size={i === 0 ? "large" : "default"} priority={i === 0} />
               </div>
             ))}
           </div>
@@ -60,14 +62,28 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </section>
       )}
 
-      {/* Modul 3 – drei Situationen als Zeilen mit Haarlinien, Titel links */}
+      {/* Zahlenzeile – nur belegbare Grössen aus dem Briefing; zählt beim Einscrollen hoch */}
+      {home.stats?.length ? (
+        <section className={`site ${gap}`}>
+          <dl className="grid-12 rule-strong pt-8">
+            {home.stats.map((s, i) => (
+              <div key={s.label} data-reveal style={{ "--reveal-delay": `${i * 80}ms` } as React.CSSProperties} className={`col-span-12 sm:col-span-4 ${i > 0 ? "sm:border-l sm:border-line sm:pl-6" : ""}`}>
+                <dd className="stat"><span data-count={s.value}>{s.value}</span>{s.suffix}</dd>
+                <dt className="mt-3 text-muted">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ) : null}
+
+      {/* Modul 3 – drei Situationen als Zeilen */}
       {home.situations?.length ? (
         <section className={`site ${gap}`}>
-          <SectionHead index="02" label={t("labels.situations")} title={home.situationsTitle} />
+          <div data-reveal><SectionHead index="02" label={t("labels.situations")} title={home.situationsTitle} /></div>
           <ol className="grid-12 mt-[var(--spacing-group)]">
             {home.situations.map((s, i) => (
-              <li key={s.title} className="rule col-span-12 grid gap-2 py-6 md:col-span-4 md:col-start-auto md:py-8">
-                <span className="index-sm text-muted" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <li key={s.title} data-reveal style={{ "--reveal-delay": `${i * 90}ms` } as React.CSSProperties} className="rule col-span-12 grid gap-2 py-6 md:col-span-4 md:py-8">
+                <span className="index-sm text-accent" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="h3 mt-3">{s.title}</h3>
                 <p className="text-muted">{s.text}</p>
               </li>
@@ -79,8 +95,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {/* Modul 4 – Leistungen als Index: drei Zeilen plus die ergänzende KI-Zeile */}
       {services.length > 0 && (
         <section className={`site ${gap}`}>
-          <SectionHead index="03" label={t("labels.services")} title={home.servicesTitle} />
-          <div className="mt-[var(--spacing-group)] border-b border-line">
+          <div data-reveal><SectionHead index="03" label={t("labels.services")} title={home.servicesTitle} /></div>
+          <div data-reveal className="mt-[var(--spacing-group)] border-b border-line">
             {mainServices.map((s, i) => <ServiceModule key={s._id} index={String(i + 1).padStart(2, "0")} title={s.title} text={s.teaser} href={`/leistungen/${s.slug}/`} />)}
             {ai && home.aiLine && <ServiceModule index="+" title={ai.title} text={home.aiLine.replace(/^KI für Branding & Marketing:\s*/, "")} href="/leistungen/ki-branding-marketing/" note={t("labels.complementary")} tone="muted" />}
           </div>
@@ -88,14 +104,17 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </section>
       )}
 
-      {/* Modul 5 – Standortbestimmung auf zweiter Papierfläche; Hinweis auf vergüteten Auftrag ist Pflicht (Struktur 1.3) */}
+      {/* Modul 5 – Standortbestimmung auf zweiter Fläche mit grosser Vermillon-Ziffer; Pflichthinweis zum vergüteten Auftrag */}
       {home.assessmentTitle && (
         <section className={`${gap} bg-paper-2`}>
           <div className="site grid-12 py-[var(--spacing-section)]">
-            <div className="col-span-12 md:col-span-3"><span className="label text-muted">{t("labels.assessment")}</span></div>
-            <div className="col-span-12 md:col-span-7">
+            <div className="col-span-12 md:col-span-3" data-reveal>
+              <span className="index text-accent" aria-hidden="true">04</span>
+              <span className="label mt-3 block text-muted">{t("labels.assessment")}</span>
+            </div>
+            <div className="col-span-12 md:col-span-8" data-reveal style={{ "--reveal-delay": "100ms" } as React.CSSProperties}>
               <h2 className="h1">{home.assessmentTitle}</h2>
-              <p className="lead mt-8 max-w-[var(--max-width-measure)]">{home.assessmentText}</p>
+              <p className="lead mt-8 max-w-[var(--max-width-measure)] text-ink-soft">{home.assessmentText}</p>
               {home.assessmentNote && <p className="rule mt-8 max-w-[var(--max-width-measure)] pt-3 body-sm text-muted">{home.assessmentNote}</p>}
               <Link href="/standortbestimmung/" className="btn btn-ink mt-10">{t("viewAssessment")}<Arrow /></Link>
             </div>
@@ -103,14 +122,16 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </section>
       )}
 
-      {/* Modul 6 – Zusammenarbeit: Titel und Text links, vier Schritte als Ledger */}
+      {/* Modul 6 – Zusammenarbeit: vier Schritte als Ledger */}
       {home.steps?.length ? (
         <section className={`site ${gap}`}>
-          <SectionHead index="04" label={t("labels.collaboration")} title={home.collaborationTitle}>
-            <p className="lead mt-6 max-w-[var(--max-width-measure)] text-muted">{home.collaborationText}</p>
-          </SectionHead>
-          <div className="mt-[var(--spacing-group)]"><ProcessSteps steps={home.steps} /></div>
-          <div className="grid-12 mt-12 items-end">
+          <div data-reveal>
+            <SectionHead index="05" label={t("labels.collaboration")} title={home.collaborationTitle}>
+              <p className="lead mt-6 max-w-[var(--max-width-measure)] text-ink-soft">{home.collaborationText}</p>
+            </SectionHead>
+          </div>
+          <div className="mt-[var(--spacing-group)]" data-reveal><ProcessSteps steps={home.steps} /></div>
+          <div className="grid-12 mt-12 items-end" data-reveal>
             {home.timeframe && <p className="col-span-12 max-w-[var(--max-width-measure)] text-muted md:col-span-7">{home.timeframe}</p>}
             <div className="col-span-12 md:col-span-4 md:col-start-9 md:justify-self-end"><Link href="/zusammenarbeit/" className="btn">{t("howWeWork")}<Arrow /></Link></div>
           </div>
@@ -120,8 +141,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {/* Modul 7 – Agentur: eine grosse Aussage, kein Teambild */}
       {home.agencyText && (
         <section className={`site ${gap}`}>
-          <SectionHead index="05" label={t("labels.agency")} title={home.agencyTitle} />
-          <div className="grid-12 mt-[var(--spacing-group)]">
+          <div data-reveal><SectionHead index="06" label={t("labels.agency")} title={home.agencyTitle} /></div>
+          <div className="grid-12 mt-[var(--spacing-group)]" data-reveal>
             <p className="h2 col-span-12 font-medium md:col-span-10" style={{ fontVariationSettings: '"wdth" 100' }}>{home.agencyText}</p>
             <div className="col-span-12 mt-4"><Link href="/ueber-uns/" className="btn">{t("about")}<Arrow /></Link></div>
           </div>

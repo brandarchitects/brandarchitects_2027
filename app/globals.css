@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Design-Tokens – verbindlich nach docs/design-spec.md (v1, 15.09.2026).
+ * Design-Tokens – verbindlich nach docs/design-spec.md (v2, 15.09.2026).
  * Komponenten greifen nur auf Tokens und die Komponentenklassen unten zu, nie auf Rohwerte.
  * Schrift: Archivo Variable (OFL), geladen in app/[locale]/layout.tsx über next/font/local.
  * Handschrift: eine Familie, zwei Breiten – schmal/leicht für Register und Labels, breit/kräftig für Headlines.
@@ -9,7 +9,7 @@
 @theme {
   --font-sans: var(--font-brand), "Helvetica Neue", Arial, sans-serif;
 
-  /* Farbe: Schwarz-Weiss-Fundament mit Temperatur, ein flacher Messing-Akzent */
+  /* Farbe: Schwarz-Weiss-Fundament mit Temperatur, ein flaches Vermillon (Schweizer Plakattradition) */
   --color-ink: #121212;
   --color-ink-soft: #2a2a28;
   --color-paper: #f7f6f2;
@@ -17,8 +17,9 @@
   --color-muted: #5f5e5a;
   --color-line: #d6d3ca;
   --color-line-strong: #121212;
-  --color-accent: #8a5607;
-  --color-accent-on-ink: #e0a63a;
+  --color-accent: #d9451c;
+  --color-accent-deep: #b4360f;
+  --color-accent-on-ink: #f0602f;
   --color-error: #a3271c;
   --color-success: #2f6b3a;
 
@@ -63,27 +64,27 @@ img { display: block; }
 
 /* ---------- Typografische Skala (Archivo Variable: wght + wdth) ---------- */
 @utility display {
-  font-size: clamp(2.75rem, 1.6rem + 4.6vw, 6.25rem);
-  line-height: 0.98;
-  letter-spacing: -0.028em;
-  font-weight: 600;
-  font-variation-settings: "wdth" 112;
+  font-size: clamp(3rem, 1.4rem + 5.6vw, 7.25rem);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  font-weight: 740;
+  font-variation-settings: "wdth" 116;
   text-wrap: balance;
 }
 @utility h1 {
-  font-size: clamp(2.25rem, 1.5rem + 2.8vw, 4.25rem);
-  line-height: 1.02;
-  letter-spacing: -0.022em;
-  font-weight: 600;
-  font-variation-settings: "wdth" 108;
+  font-size: clamp(2.5rem, 1.5rem + 3.4vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  font-variation-settings: "wdth" 112;
   text-wrap: balance;
 }
 @utility h2 {
-  font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.625rem);
-  line-height: 1.08;
-  letter-spacing: -0.016em;
-  font-weight: 600;
-  font-variation-settings: "wdth" 104;
+  font-size: clamp(1.875rem, 1.3rem + 1.9vw, 3.125rem);
+  line-height: 1.04;
+  letter-spacing: -0.024em;
+  font-weight: 680;
+  font-variation-settings: "wdth" 108;
   text-wrap: balance;
 }
 @utility h3 {
@@ -126,11 +127,21 @@ img { display: block; }
   font-variant-numeric: tabular-nums;
 }
 @utility wordmark {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   line-height: 1;
-  letter-spacing: -0.01em;
-  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-variation-settings: "wdth" 116;
+}
+.wordmark > i { font-style: normal; color: var(--color-accent); }
+/* Zahlenzeile */
+@utility stat {
+  font-size: clamp(3rem, 1.8rem + 4.5vw, 6.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 700;
   font-variation-settings: "wdth" 112;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---------- Raster ---------- */
@@ -172,11 +183,11 @@ img { display: block; }
 .btn:active { transform: translateY(1px); }
 .btn:disabled { opacity: 0.5; cursor: default; transform: none; }
 .btn-ink { background: var(--color-ink); color: var(--color-paper); }
-.btn-ink:hover { background: var(--color-ink-soft); border-color: var(--color-ink-soft); color: var(--color-paper); }
+.btn-ink:hover { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-paper); }
 .on-ink .btn { border-color: var(--color-paper); color: var(--color-paper); }
 .on-ink .btn:hover { background: var(--color-paper); color: var(--color-ink); }
 .on-ink .btn-ink { background: var(--color-paper); color: var(--color-ink); }
-.on-ink .btn-ink:hover { background: var(--color-paper-2); border-color: var(--color-paper-2); }
+.on-ink .btn-ink:hover { background: var(--color-accent-on-ink); border-color: var(--color-accent-on-ink); color: var(--color-ink); }
 .btn > .arrow { transition: transform var(--duration-fast) var(--ease-out-brand); }
 .btn:hover > .arrow { transform: translateX(3px); }
 
@@ -264,6 +275,31 @@ a:hover .media-hover img, a:focus-visible .media-hover img { transform: scale(1.
 .enter-2 { animation-delay: 70ms; }
 .enter-3 { animation-delay: 140ms; }
 .enter-4 { animation-delay: 210ms; }
+
+/* ---------- Bewegung: Reveals (nur mit html.js, sonst alles sichtbar), Zeilenmaske, Reel ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: opacity 700ms var(--ease-out-brand), transform 700ms var(--ease-out-brand);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  html.js [data-reveal].is-visible { opacity: 1; transform: none; }
+
+  /* Hero-Zeilen: maskiert von unten – einmal beim Laden, ohne JavaScript */
+  .lines > span { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+  .lines > span > span { display: block; transform: translateY(110%); animation: line-up 900ms var(--ease-out-brand) both; }
+  .lines > span:nth-child(2) > span { animation-delay: 120ms; }
+  .lines > span:nth-child(3) > span { animation-delay: 240ms; }
+  @keyframes line-up { to { transform: none; } }
+
+  /* Reel weitet sich beim ersten Scrollen von eingerückt auf volle Breite */
+  @supports (animation-timeline: scroll()) {
+    .reel-frame { animation: reel-expand linear both; animation-timeline: scroll(root); animation-range: 0 55vh; }
+    @keyframes reel-expand { from { margin-inline: var(--spacing-gutter); } to { margin-inline: 0; } }
+  }
+}
+.lines > span { display: block; }
 
 /* ---------- FAQ (native details) ---------- */
 details.faq > summary { list-style: none; cursor: pointer; }

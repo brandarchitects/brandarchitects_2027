@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Platzhalter-Keyvisual Website">
+<rect width="1600" height="900" fill="#121212"/>
+<g stroke="#2a2a28" stroke-width="2"><line x1="100" y1="0" x2="100" y2="900"/><line x1="800" y1="0" x2="800" y2="900"/><line x1="1500" y1="0" x2="1500" y2="900"/><line x1="0" y1="108" x2="1600" y2="108"/><line x1="0" y1="792" x2="1600" y2="792"/></g>
+<rect x="100" y="108" width="304" height="36" fill="#d9451c"/>
+<text x="100" y="81" font-family="Helvetica, Arial, sans-serif" font-size="27" letter-spacing="4" fill="#8b8a84">CASE 02</text>
+<text x="1500" y="81" text-anchor="end" font-family="Helvetica, Arial, sans-serif" font-size="27" letter-spacing="4" fill="#d9451c">BRAND ARCHITECTS</text>
+<text x="100" y="720" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="150" letter-spacing="-5" fill="#f7f6f2">Website</text>
+<text x="100" y="855" font-family="Helvetica, Arial, sans-serif" font-size="23" letter-spacing="2" fill="#8b8a84">PLATZHALTER-KEYVISUAL — WIRD DURCH PROJEKTBILD ERSETZT</text>
+</svg>

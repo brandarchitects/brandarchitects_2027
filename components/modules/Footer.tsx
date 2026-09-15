@@ -14,7 +14,7 @@ export function Footer({ settings }: { settings: SiteSettings }) {
     <footer className="on-ink bg-ink text-paper">
       <div className="site grid-12 border-t border-paper/20 py-14 md:py-20">
         <div className="col-span-12 md:col-span-5">
-          <p className="wordmark">{settings.brandName}</p>
+          <p className="wordmark">{settings.brandName}<i aria-hidden="true">.</i></p>
           <p className="mt-2 text-paper/70">{settings.tagline}</p>
           <address className="mt-8 not-italic text-paper/70">
             {settings.companyName}<br />

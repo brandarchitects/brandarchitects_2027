@@ -35,8 +35,8 @@ export default async function WorkPage({ params }: PageProps<"/[locale]/arbeiten
         {cases.length > 0 ? (
           <div className="grid-12 mt-[var(--spacing-section)] gap-y-16 md:gap-y-24">
             {cases.map((c, i) => {
-              const wide = i % 2 === 0;
-              return <div key={c._id} className={wide ? "col-span-12 md:col-span-7" : "col-span-12 md:col-span-5 md:mt-24"}><ProjectCard item={c} priority={i < 2} /></div>;
+              const cls = i === 0 ? "col-span-12" : i % 2 === 1 ? "col-span-12 md:col-span-7" : "col-span-12 md:col-span-5 md:mt-24";
+              return <div key={c._id} data-reveal className={cls}><ProjectCard item={c} size={i === 0 ? "large" : "default"} priority={i < 2} /></div>;
             })}
           </div>
         ) : (

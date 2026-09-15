@@ -68,7 +68,7 @@ export default async function CasePage({ params }: PageProps<"/[locale]/arbeiten
         {/* Erzählung: Label links, Text rechts – dieselbe Zweiteilung wie Seitenkopf und Leistungsseite */}
         <div className="mt-[var(--spacing-section)]">
           {sections.map(([h, text]) => text && (
-            <section key={h} className="grid-12 rule py-8 md:py-10">
+            <section key={h} data-reveal className="grid-12 rule py-8 md:py-10">
               <h2 className="label col-span-12 pt-1 text-muted md:col-span-3">{h}</h2>
               <p className="col-span-12 max-w-[var(--max-width-measure)] text-[1.125rem] leading-[1.5] md:col-span-8">{text}</p>
             </section>

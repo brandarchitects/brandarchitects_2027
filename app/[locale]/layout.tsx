@@ -10,6 +10,7 @@ import { getSiteSettings } from "@/lib/content";
 import { Header } from "@/components/modules/Header";
 import { Footer } from "@/components/modules/Footer";
 import { SkipLink } from "@/components/modules/SkipLink";
+import { MotionLayer } from "@/components/motion/MotionLayer";
 import { OrganizationJsonLd, SITE_URL } from "@/lib/seo/jsonld";
 import "../globals.css";
 
@@ -48,6 +49,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
           <Header brandName={settings.brandName} />
           <main id="main" className="flex-1">{children}</main>
           <Footer settings={settings} />
+          <MotionLayer />
         </NextIntlClientProvider>
         <OrganizationJsonLd settings={settings} />
         <Analytics />

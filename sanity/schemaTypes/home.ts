@@ -17,6 +17,7 @@ export const homeType = defineType({
     defineField({ name: "heroText", title: "Hero – Erklärung", type: "text", rows: 4, validation: (r) => r.required() }),
     defineField({ name: "heroImage", title: "Hero – Projektausschnitt (optional)", type: "figure" }),
     defineField({ name: "workTitle", title: "Modul 2 – Titel", type: "string" }),
+    defineField({ name: "stats", title: "Zahlenzeile (nur belegbare Grössen)", type: "array", validation: (r) => r.max(3), of: [{ type: "object", fields: [defineField({ name: "value", type: "number", title: "Zahl" }), defineField({ name: "suffix", type: "string", title: "Zusatz (z. B. +)" }), defineField({ name: "label", type: "string", title: "Bezeichnung" })] }] }),
     defineField({ name: "situationsTitle", title: "Modul 3 – Titel", type: "string" }),
     defineField({ name: "situations", title: "Modul 3 – Drei Situationen", type: "array", of: [{ type: "object", fields: [defineField({ name: "title", type: "string", title: "Situation" }), defineField({ name: "text", type: "text", rows: 2, title: "Text" })] }], validation: (r) => r.max(3) }),
     defineField({ name: "servicesTitle", title: "Modul 4 – Titel", type: "string" }),

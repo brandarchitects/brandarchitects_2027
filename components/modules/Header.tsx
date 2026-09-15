@@ -20,7 +20,7 @@ export function Header({ brandName }: { brandName: string }) {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper">
       <div className="site flex h-16 items-center justify-between md:h-[4.5rem]">
-        <Link href="/" className="wordmark">{brandName}</Link>
+        <Link href="/" className="wordmark">{brandName}<i aria-hidden="true">.</i></Link>
         <nav aria-label="Hauptnavigation" className="hidden items-center gap-8 md:flex">
           {items.map((i) => (
             <Link key={i.href} href={i.href} className="navlink">{i.label}</Link>

@@ -114,6 +114,7 @@ export interface Home {
   heroText: string;
   heroImage?: Figure;
   workTitle?: string;
+  stats?: { value: number; suffix?: string; label: string }[];
   situationsTitle?: string;
   situations?: { title: string; text: string }[];
   servicesTitle?: string;
