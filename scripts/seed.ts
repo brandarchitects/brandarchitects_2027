@@ -1,7 +1,10 @@
 /**
  * Erstbefüllung von Sanity mit den Website-Texten aus docs/briefings/briefing-3-1.md.
- * Ausführen: npm run seed  (braucht einen Editor-Token: SANITY_API_WRITE_TOKEN aus der Vercel-Sanity-Integration
- * – per `npx vercel env pull .env.local` geholt – oder manuell SANITY_WRITE_TOKEN in .env.local)
+ * Zwei Wege:
+ *  1. Beim Vercel-Build (ohne lokale Umgebung): Variable SEED_ON_BUILD=1 in Vercel setzen, Redeploy, danach Variable
+ *     wieder löschen. `npm run build` ruft dieses Skript per `prebuild` mit --only-if-enabled auf; ohne SEED_ON_BUILD=1
+ *     passiert nichts. Token kommt aus SANITY_API_WRITE_TOKEN (Vercel-Sanity-Integration).
+ *  2. Lokal: npm run seed (Token per `npx vercel env pull .env.local` oder manuell SANITY_WRITE_TOKEN in .env.local)
  * Idempotent: feste _ids, createOrReplace – mehrfaches Ausführen überschreibt dieselben Dokumente.
  * Cases werden NICHT geseedet (brauchen Bilder und Freigaben) – die legt Pascal im Studio an.
  */
@@ -17,7 +20,8 @@ if (existsSync(".env.local")) {
   }
 }
 
-const client = createClient({
+// Client erst im Lauf erzeugen – so bricht ein Build ohne Sanity-Variablen nicht am Import
+const makeClient = () => createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
   apiVersion: "2026-09-15",
@@ -130,8 +134,13 @@ const siteSettings = {
 };
 
 async function main() {
-  if (!process.env.SANITY_API_WRITE_TOKEN && !process.env.SANITY_WRITE_TOKEN) throw new Error("Schreibtoken fehlt: SANITY_API_WRITE_TOKEN (vercel env pull) oder SANITY_WRITE_TOKEN in .env.local");
-  const tx = client.transaction();
+  if (process.argv.includes("--only-if-enabled") && process.env.SEED_ON_BUILD !== "1") {
+    console.log("seed: übersprungen (SEED_ON_BUILD nicht gesetzt)");
+    return;
+  }
+  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) throw new Error("NEXT_PUBLIC_SANITY_PROJECT_ID fehlt");
+  if (!process.env.SANITY_API_WRITE_TOKEN && !process.env.SANITY_WRITE_TOKEN) throw new Error("Schreibtoken fehlt: SANITY_API_WRITE_TOKEN (Vercel-Sanity-Integration) oder SANITY_WRITE_TOKEN in .env.local");
+  const tx = makeClient().transaction();
   for (const doc of [...faqs, ...services, ...pages, home, siteSettings]) tx.createOrReplace(doc as never);
   const res = await tx.commit();
   console.log(`✓ ${res.results.length} Dokumente geschrieben. Jetzt im Studio prüfen: /studio`);

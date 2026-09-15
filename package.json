@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "tsx scripts/seed.ts --only-if-enabled",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "typegen": "sanity schema extract --path sanity/extract.json && sanity typegen generate",
-    "seed": "npx tsx scripts/seed.ts",
+    "seed": "tsx scripts/seed.ts",
     "sanity": "sanity"
   },
   "dependencies": {
@@ -37,6 +38,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }
