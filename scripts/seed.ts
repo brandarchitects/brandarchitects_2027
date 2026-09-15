@@ -96,7 +96,7 @@ const pages = [
 
 const home = {
   _id: `home-${L}`, _type: "home", language: L,
-  heroKicker: "Markenberatung und Design für Unternehmen mit Substanz – im Aargau, in Zürich und darüber hinaus",
+  heroKicker: "Markenstrategie, Design und Webdesign für etablierte Schweizer Unternehmen",
   heroHeadline: "Ihr Unternehmen ist weiter. Jetzt muss Ihre Marke mit.",
   heroText: "Ihr Angebot hat sich verändert, Ihre Marke erzählt noch die alte Geschichte? Brand Architects klärt Ihre Positionierung und übersetzt sie in Sprache, Design und digitale Anwendungen. Damit Kunden verstehen, wofür sie Ihr Unternehmen heute wählen sollen.",
   workTitle: "Welche Aufgabe hinter dem Auftritt stand.",

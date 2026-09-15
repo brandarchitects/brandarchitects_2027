@@ -14,6 +14,8 @@ import { contactTopics } from "@/lib/schemas/contact";
 type Errors = Partial<Record<"name" | "email" | "company" | "message", string>>;
 
 export function ContactForm({ initialTopic, initialStatus }: { initialTopic?: string; initialStatus?: string }) {
+  // Vorbelegung über ?thema= (Briefing Kap. 8.7): ein Interessenfeld ist angehakt, alle bleiben editierbar
+  const preselected = contactTopics.includes(initialTopic as never) ? initialTopic : undefined;
   const t = useTranslations("contact");
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">(initialStatus === "ok" ? "ok" : initialStatus === "error" ? "error" : "idle");
   const [errors, setErrors] = useState<Errors>({});
@@ -26,13 +28,15 @@ export function ContactForm({ initialTopic, initialStatus }: { initialTopic?: st
     setStatus("sending");
     setErrors({});
     const form = e.currentTarget;
-    const data: Record<string, FormDataEntryValue | number> = { ...Object.fromEntries(new FormData(form).entries()), startedAt: startedAt.current };
+    const fd = new FormData(form);
+    // Interessenfelder sind Checkboxen mit gleichem Namen → alle Werte als Array übernehmen
+    const data: Record<string, FormDataEntryValue | FormDataEntryValue[] | number> = { ...Object.fromEntries(fd.entries()), topics: fd.getAll("topics"), startedAt: startedAt.current };
     try {
       const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) });
       const json = await res.json();
       if (res.ok && json.ok) {
         setStatus("ok");
-        track("contact_submit_success", { topic: String(data.topic ?? "") });
+        track("contact_submit_success", { topics: (data.topics as string[]).join(",") });
         form.reset();
       } else if (res.status === 422 && json.errors) {
         setErrors(json.errors);
@@ -58,12 +62,18 @@ export function ContactForm({ initialTopic, initialStatus }: { initialTopic?: st
         <label>{t("name")}<input name="name" required autoComplete="name" className={field} aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />{err("name")}</label>
         <label>{t("email")}<input name="email" type="email" required autoComplete="email" className={field} aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />{err("email")}</label>
         <label>{t("company")}<input name="company" required autoComplete="organization" className={field} aria-invalid={!!errors.company} aria-describedby={errors.company ? "company-error" : undefined} />{err("company")}</label>
-        <label>{t("topic")}
-          <select name="topic" defaultValue={contactTopics.includes(initialTopic as never) ? initialTopic : ""} className={field}>
-            <option value="">{t("topicPlaceholder")}</option>
-            {contactTopics.map((k) => <option key={k} value={k}>{t(`topics.${k}`)}</option>)}
-          </select>
-        </label>
+        <fieldset>
+          <legend>{t("topics_label")}</legend>
+          <p id="topics-hint" className="mt-1 text-sm text-muted">{t("topics_hint")}</p>
+          <div className="mt-3 grid gap-2" role="group" aria-describedby="topics-hint">
+            {contactTopics.map((k) => (
+              <label key={k} className="flex items-center gap-3">
+                <input type="checkbox" name="topics" value={k} defaultChecked={k === preselected} className="h-4 w-4" />
+                {t(`topics.${k}`)}
+              </label>
+            ))}
+          </div>
+        </fieldset>
         <label>{t("message")}<textarea name="message" required rows={6} className={field} aria-invalid={!!errors.message} aria-describedby={errors.message ? "message-error" : undefined} />{err("message")}</label>
         <label>{t("timeframe")}<input name="timeframe" className={field} /></label>
         {/* Honeypot: für Menschen unsichtbar, Bots füllen es aus */}

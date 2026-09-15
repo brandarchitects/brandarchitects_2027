@@ -31,3 +31,17 @@ Format: Kontext → Entscheid → Konsequenzen. Neue Entscheide unten anfügen, 
 
 ## ADR-007 · Kein Code aus dem Prototyp (15.09.2026)
 **Entscheid:** Prototyp `brandarchitects` (Astro) wird nicht weitergeführt; nur Inhalte und Erkenntnisse übernommen.
+
+## ADR-008 · Hero-Einordnung nach Strategie 2.2 (15.09.2026)
+**Kontext:** Briefing 3.1 («Markenberatung und Design für Unternehmen mit Substanz – im Aargau, in Zürich und darüber hinaus») und Strategie 2.2 / Struktur 1.3 («Markenstrategie, Design und Webdesign für etablierte Schweizer Unternehmen») nennen unterschiedliche Einordnungszeilen. Beide sind inhaltlich korrekt.
+**Entscheid (Pascal):** Fassung 2.2, weil klarer. Regionale Einordnung bleibt über Title, Schema, Über uns und FAQ.
+**Konsequenzen:** `scripts/seed.ts` → `heroKicker` angepasst; im Studio jederzeit änderbar.
+
+## ADR-009 · Formular: keine Budgetfrage, Interessenfelder als Mehrfachauswahl (15.09.2026)
+**Kontext:** Briefing 3.1 sieht ein Budgetrahmen-Feld vor, Struktur 1.3 zum Start nicht. Das bisherige Feld «Thema» war eine Einfachauswahl.
+**Entscheid (Pascal):** Kein Budgetfeld zum Start. Statt «Thema» ein Feld «Interessenfelder» mit Mehrfachauswahl (Markenprojekt · Website und Digital Branding · KI und digitale Produkte · Standortbestimmung · Noch offen) und kurzem Begleittext, der den Nutzen der Auswahl erklärt.
+**Konsequenzen:** `lib/schemas/contact.ts` (`topics` Array), `components/forms/ContactForm.tsx` (Checkbox-Gruppe, funktioniert ohne JavaScript), `app/api/contact/route.ts` (Mail listet alle Felder), `messages/de.json`. Vorbelegung `?thema=` hakt ein Feld an. Analytics-Event trägt die gewählten Schlüssel, keine Inhalte. Budgetkategorien folgen nach Kalkulation (Briefing Kap. 12.4).
+
+## ADR-010 · Modul 7 Agentur-Text (15.09.2026)
+**Kontext:** Briefing 3.1 (mit «seit über sieben Jahren», «20 Jahre Erfahrung», Netzwerk) und Struktur 1.3 (zwei Sätze ohne Zahlen) formulieren Modul 7 unterschiedlich.
+**Entscheid (Pascal):** Beide Fassungen zulässig. Umgesetzt bleibt die Fassung 3.1 (Seed); Wechsel im Studio ohne Code möglich.

@@ -7,7 +7,7 @@ import { ContactForm } from "@/components/forms/ContactForm";
 
 /**
  * Kontakt: Einführung → Formular und direkte E-Mail → Erwartung an das erste Gespräch → Geschäftsadresse.
- * Vorbelegung des Themas über ?thema=brand|web|ai|assessment|open (Briefing Kap. 8.7).
+ * Interessenfelder als Mehrfachauswahl (ADR-009); Vorbelegung eines Feldes über ?thema=brand|web|ai|assessment|open (Briefing Kap. 8.7).
  */
 export async function generateMetadata({ params }: PageProps<"/[locale]/kontakt">): Promise<Metadata> {
   const { locale } = await params;

@@ -17,7 +17,14 @@ const TOPIC_LABELS: Record<string, string> = { brand: "Markenprojekt", web: "Web
 
 export async function POST(req: Request) {
   const isJson = req.headers.get("content-type")?.includes("application/json");
-  const raw = isJson ? await req.json() : Object.fromEntries((await req.formData()).entries());
+  let raw: Record<string, unknown>;
+  if (isJson) {
+    raw = await req.json();
+  } else {
+    // Ohne JavaScript: Checkboxen «topics» kommen mehrfach → getAll statt fromEntries
+    const fd = await req.formData();
+    raw = { ...Object.fromEntries(fd.entries()), topics: fd.getAll("topics") };
+  }
   const wantsJson = isJson || req.headers.get("accept")?.includes("application/json");
 
   const respond = (ok: boolean, status = ok ? 200 : 500, errors?: Record<string, string>) => {
@@ -32,6 +39,7 @@ export async function POST(req: Request) {
     return wantsJson ? NextResponse.json({ ok: false, errors }, { status: 422 }) : respond(false);
   }
   const d = parsed.data;
+  const topics = d.topics?.map((k) => TOPIC_LABELS[k]).join(", ");
 
   // Spam-Schutz (still): Honeypot oder zu schnell → Erfolg vortäuschen, nichts senden
   if (d.website || (d.startedAt && Date.now() - d.startedAt < 3000)) return respond(true);
@@ -50,10 +58,10 @@ export async function POST(req: Request) {
       from,
       to,
       replyTo: d.email,
-      subject: `Anfrage: ${d.company}${d.topic ? ` – ${TOPIC_LABELS[d.topic]}` : ""}`,
+      subject: `Anfrage: ${d.company}${topics ? ` – ${topics}` : ""}`,
       text: [
         `Name: ${d.name}`, `E-Mail: ${d.email}`, `Unternehmen: ${d.company}`,
-        `Thema: ${d.topic ? TOPIC_LABELS[d.topic] : "–"}`, `Zeitraum: ${d.timeframe || "–"}`, "",
+        `Interessenfelder: ${topics || "–"}`, `Zeitraum: ${d.timeframe || "–"}`, "",
         "Was steht an:", d.message,
       ].join("\n"),
     });

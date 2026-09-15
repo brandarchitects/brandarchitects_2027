@@ -35,4 +35,5 @@ grep -rniE "ganzheitlich|massgeschneidert|leidenschaft|innovativ|augenhöhe|\bwo
 
 ## Formular
 - Keine Antwortfrist versprechen
+- Kein Budgetfeld zum Start; Interessenfelder als Mehrfachauswahl mit Begleittext (ADR-009)
 - Bestätigung: «Vielen Dank für Ihre Nachricht. Wir melden uns, um die nächsten Schritte zu besprechen.»
