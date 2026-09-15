@@ -1,0 +1,70 @@
+{
+  "nav": {
+    "work": "Arbeiten",
+    "services": "Leistungen",
+    "collaboration": "Zusammenarbeit",
+    "about": "Über uns",
+    "cta": "Projekt besprechen",
+    "menuOpen": "Menü öffnen",
+    "menuClose": "Menü schliessen",
+    "skipToContent": "Zum Inhalt springen",
+    "languageSwitch": "Sprache wählen"
+  },
+  "footer": {
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "assessment": "Standortbestimmung",
+    "linkedin": "LinkedIn"
+  },
+  "home": {
+    "viewWork": "Arbeiten ansehen",
+    "viewAssessment": "Standortbestimmung ansehen"
+  },
+  "work": {
+    "task": "Aufgabe",
+    "contribution": "Beitrag von Brand Architects",
+    "role": "Rolle",
+    "partners": "Partner",
+    "year": "Jahr",
+    "origin": "Herkunft",
+    "originBrandArchitects": "Brand Architects",
+    "originFormerAgency": "Frühere Agentur",
+    "related": "Verwandtes Projekt",
+    "allWork": "Alle Arbeiten"
+  },
+  "contact": {
+    "name": "Name",
+    "email": "E-Mail",
+    "company": "Unternehmen",
+    "topic": "Thema",
+    "topicPlaceholder": "Bitte wählen",
+    "message": "Was steht bei Ihnen an?",
+    "timeframe": "Gewünschter Zeitraum (optional)",
+    "submit": "Anfrage senden",
+    "submitting": "Wird gesendet …",
+    "success": "Vielen Dank für Ihre Nachricht. Wir melden uns, um die nächsten Schritte zu besprechen.",
+    "error": "Ihre Nachricht konnte noch nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie uns per E-Mail.",
+    "privacyNote": "Ihre Angaben werden ausschliesslich zur Bearbeitung Ihrer Anfrage verwendet. Details in der Datenschutzerklärung.",
+    "topics": {
+      "brand": "Markenprojekt",
+      "web": "Website und Digital Branding",
+      "ai": "KI und digitale Produkte",
+      "assessment": "Standortbestimmung",
+      "open": "Noch offen"
+    },
+    "validation": {
+      "nameRequired": "Bitte geben Sie Ihren Namen an.",
+      "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse an.",
+      "companyRequired": "Bitte geben Sie Ihr Unternehmen an.",
+      "messageRequired": "Bitte beschreiben Sie kurz, was bei Ihnen ansteht."
+    }
+  },
+  "faq": {
+    "title": "Fragen zur Zusammenarbeit"
+  },
+  "notFound": {
+    "title": "Diese Seite gibt es nicht.",
+    "text": "Vielleicht hilft die Übersicht weiter.",
+    "home": "Zur Startseite"
+  }
+}

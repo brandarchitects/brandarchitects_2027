@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/*
+ * Design-Tokens. STAND: technischer Rohbau (Phase 0). Die verbindlichen Werte kommen aus
+ * docs/design-spec.md (Phase 3) und ersetzen diese Platzhalter. Komponenten greifen nur auf
+ * Tokens zu – nie auf Rohwerte –, damit der Wechsel an einer Stelle passiert.
+ */
+@theme {
+  --font-sans: var(--font-brand-sans), system-ui, sans-serif;
+  --color-ink: #1a1a1a;
+  --color-paper: #ffffff;
+  --color-muted: #6b6b6b;
+  --color-line: #e3e3e3;
+  --color-accent: #1a1a1a;
+  --spacing-section: 6rem;
+  --max-width-measure: 68ch;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+body { color: var(--color-ink); background: var(--color-paper); }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }

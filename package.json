@@ -1,0 +1,42 @@
+{
+  "name": "brandarchitects_2027",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "typegen": "sanity schema extract --path sanity/extract.json && sanity typegen generate",
+    "seed": "npx tsx scripts/seed.ts",
+    "sanity": "sanity"
+  },
+  "dependencies": {
+    "@portabletext/react": "^8.0.1",
+    "@portabletext/types": "^4.0.2",
+    "@sanity/document-internationalization": "^6.2.36",
+    "@sanity/image-url": "^2.1.1",
+    "@vercel/analytics": "^2.0.1",
+    "next": "16.3.5",
+    "next-intl": "^4.14.5",
+    "next-sanity": "^13.3.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "resend": "^6.28.1",
+    "sanity": "^6.14.0",
+    "styled-components": "^6.5.3",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@sanity/vision": "^6.14.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
