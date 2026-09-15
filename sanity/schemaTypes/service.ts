@@ -12,7 +12,8 @@ export const serviceType = defineType({
   type: "document",
   fields: [
     defineField({ name: "language", type: "string", readOnly: true, hidden: true }),
-    defineField({ name: "title", title: "Titel", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "title", title: "Bereichsname (Navigation, Karten)", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "headline", title: "H1 der Leistungsseite", type: "string", description: "Käuferfrage als Überschrift (Struktur-Briefing Kap. 5.3). Leer = Bereichsname." }),
     defineField({ name: "slug", title: "URL-Name", type: "slug", options: { source: "title" }, validation: (r) => r.required() }),
     defineField({ name: "teaser", title: "Kurztext (Startseite / Übersicht)", type: "text", rows: 3, validation: (r) => r.required() }),
     defineField({ name: "forWhom", title: "Für wen", type: "text", rows: 3, validation: (r) => r.required() }),

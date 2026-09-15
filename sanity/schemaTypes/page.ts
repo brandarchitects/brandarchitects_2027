@@ -1,7 +1,8 @@
 import { defineField, defineType } from "sanity";
 
 /**
- * Freie Seite: Standortbestimmung, Zusammenarbeit, Über uns, Impressum, Datenschutz.
+ * Freie Seite: Standortbestimmung, Zusammenarbeit, Über uns, Impressum, Datenschutz –
+ * sowie die redaktionellen Texte der Übersichten Arbeiten, Leistungen und Kontakt (Slugs arbeiten, leistungen, kontakt).
  * Die Startseite hat ein eigenes Dokument (home), weil ihre Modulfolge fix ist.
  */
 export const pageType = defineType({
@@ -11,11 +12,12 @@ export const pageType = defineType({
   fields: [
     defineField({ name: "language", type: "string", readOnly: true, hidden: true }),
     defineField({ name: "title", title: "Titel (H1)", type: "string", validation: (r) => r.required() }),
-    defineField({ name: "slug", title: "URL-Name", type: "slug", options: { source: "title" }, validation: (r) => r.required(), description: "standortbestimmung, zusammenarbeit, ueber-uns, impressum, datenschutz" }),
+    defineField({ name: "slug", title: "URL-Name", type: "slug", options: { source: "title" }, validation: (r) => r.required(), description: "standortbestimmung, zusammenarbeit, ueber-uns, impressum, datenschutz, arbeiten, leistungen, kontakt" }),
     defineField({ name: "intro", title: "Einleitung", type: "text", rows: 3 }),
     defineField({ name: "body", title: "Inhalt", type: "portableText" }),
     defineField({ name: "steps", title: "Prozessschritte (optional)", type: "array", of: [{ type: "processStep" }] }),
     defineField({ name: "faqs", title: "FAQ (optional)", type: "array", of: [{ type: "reference", to: [{ type: "faq" }] }] }),
+    defineField({ name: "ctaTitle", title: "Kontaktabschluss – Titel", type: "string", description: "Leer = «Was steht bei Ihrem Unternehmen an?»" }),
     defineField({ name: "ctaLabel", title: "CTA-Text", type: "string" }),
     defineField({ name: "contactTopic", title: "Kontakt-Vorbelegung", type: "string", options: { list: ["brand", "web", "ai", "assessment", "open"] } }),
     defineField({ name: "seo", type: "seo" }),

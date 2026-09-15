@@ -7,7 +7,7 @@ import { defineQuery } from "next-sanity";
 const figure = `{ image { asset->{ _ref, url, metadata { lqip, dimensions } }, hotspot, crop }, alt, caption }`;
 const seo = `seo { title, description, "ogImage": ogImage, noIndex }`;
 const caseSummary = `{
-  _id, title, client, task, contribution, featured, order,
+  _id, title, client, task, contribution, featured, order, origin, formerAgency, year,
   "slug": slug.current,
   heroImage ${figure},
   "services": services[]->{ title, "slug": slug.current }
@@ -16,9 +16,9 @@ const faq = `{ _id, question, answer }`;
 
 export const homeQuery = defineQuery(`*[_type == "home" && language == $locale][0]{
   heroKicker, heroHeadline, heroText, heroImage ${figure},
-  workTitle, situationsTitle, situations[]{ title, text }, aiLine,
-  assessmentTitle, assessmentText, collaborationTitle, collaborationText,
-  steps[]{ title, text, clientInvolvement }, timeframe, agencyText, contactTitle, contactText, ${seo}
+  workTitle, situationsTitle, situations[]{ title, text }, servicesTitle, aiLine,
+  assessmentTitle, assessmentText, assessmentNote, collaborationTitle, collaborationText,
+  steps[]{ title, text, clientInvolvement }, timeframe, agencyTitle, agencyText, contactTitle, contactText, ${seo}
 }`);
 
 export const featuredCasesQuery = defineQuery(`*[_type == "case" && language == $locale && featured == true && materialCleared == true] | order(order asc)[0...2] ${caseSummary}`);
@@ -41,7 +41,7 @@ export const allServicesQuery = defineQuery(`*[_type == "service" && language ==
 }`);
 
 export const serviceBySlugQuery = defineQuery(`*[_type == "service" && language == $locale && slug.current == $slug][0]{
-  _id, title, teaser, forWhom, triggers, youGet, whatItTakes, ctaLabel, contactTopic,
+  _id, title, headline, teaser, forWhom, triggers, youGet, whatItTakes, ctaLabel, contactTopic,
   "slug": slug.current,
   "questions": questions[]->${faq},
   "cases": cases[]->${caseSummary},
@@ -51,7 +51,7 @@ export const serviceBySlugQuery = defineQuery(`*[_type == "service" && language 
 export const serviceSlugsQuery = defineQuery(`*[_type == "service" && language == $locale].slug.current`);
 
 export const pageBySlugQuery = defineQuery(`*[_type == "page" && language == $locale && slug.current == $slug][0]{
-  _id, title, intro, body, steps[]{ title, text, clientInvolvement }, ctaLabel, contactTopic,
+  _id, title, intro, body, steps[]{ title, text, clientInvolvement }, ctaTitle, ctaLabel, contactTopic,
   "slug": slug.current,
   "faqs": faqs[]->${faq},
   ${seo}

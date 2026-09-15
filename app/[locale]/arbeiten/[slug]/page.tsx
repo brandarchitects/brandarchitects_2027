@@ -33,13 +33,13 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/arbeiten
 export default async function CasePage({ params }: PageProps<"/[locale]/arbeiten/[slug]">) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const [item, t, tn] = await Promise.all([getCase(locale as Locale, slug), getTranslations("work"), getTranslations("nav")]);
+  const [item, t, tn, tc] = await Promise.all([getCase(locale as Locale, slug), getTranslations("work"), getTranslations("nav"), getTranslations("contact")]);
   if (!item) notFound();
   const url = `${SITE_URL}/arbeiten/${slug}/`;
 
   const sections: [string, string | undefined][] = [
-    ["Situation", item.situation], ["Offene Frage", item.question], ["Auftrag", item.assignment],
-    ["Entscheid", item.decision], ["Was bewusst blieb", item.preserved],
+    [t("sections.situation"), item.situation], [t("sections.question"), item.question], [t("sections.assignment"), item.assignment],
+    [t("sections.decision"), item.decision], [t("sections.preserved"), item.preserved],
   ];
 
   return (
@@ -58,14 +58,14 @@ export default async function CasePage({ params }: PageProps<"/[locale]/arbeiten
         </dl>
         <div>
           {sections.map(([h, text]) => text && <section key={h} className="mt-8 first:mt-0"><h2 className="text-2xl font-semibold">{h}</h2><p className="mt-3 max-w-measure">{text}</p></section>)}
-          <section className="mt-8"><h2 className="text-2xl font-semibold">Anwendung</h2><PortableTextRenderer value={item.application} /></section>
-          {item.result && <section className="mt-8"><h2 className="text-2xl font-semibold">Ergebnis</h2><p className="mt-3 max-w-measure">{item.result}</p></section>}
+          {item.application?.length ? <section className="mt-8"><h2 className="text-2xl font-semibold">{t("sections.application")}</h2><PortableTextRenderer value={item.application} /></section> : null}
+          {item.result && <section className="mt-8"><h2 className="text-2xl font-semibold">{t("sections.result")}</h2><p className="mt-3 max-w-measure">{item.result}</p></section>}
           {item.quote && <div className="mt-12"><QuoteBlock quote={item.quote} /></div>}
         </div>
       </div>
 
       {item.relatedCase && <section className="mt-section"><h2 className="text-2xl font-semibold">{t("related")}</h2><div className="mt-8 max-w-xl"><ProjectCard item={item.relatedCase} /></div></section>}
-      <ContactClose title="Was steht bei Ihrem Unternehmen an?" label={tn("cta")} topic={item.contactTopic} />
+      <ContactClose title={tc("closeTitle")} label={t("ctaSimilar")} topic={item.contactTopic} />
 
       <CaseJsonLd title={item.task} client={item.client} url={url} description={item.contribution} year={item.year}
         image={item.heroImage?.image?.asset ? urlFor(item.heroImage.image).width(1200).url() : undefined} />

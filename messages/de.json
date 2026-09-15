@@ -18,7 +18,11 @@
   },
   "home": {
     "viewWork": "Arbeiten ansehen",
-    "viewAssessment": "Standortbestimmung ansehen"
+    "viewAssessment": "Standortbestimmung ansehen",
+    "allWork": "Alle Arbeiten",
+    "viewServices": "Leistungen ansehen",
+    "howWeWork": "So arbeiten wir",
+    "about": "Über uns"
   },
   "work": {
     "task": "Aufgabe",
@@ -28,9 +32,19 @@
     "year": "Jahr",
     "origin": "Herkunft",
     "originBrandArchitects": "Brand Architects",
-    "originFormerAgency": "Frühere Agentur",
+    "originFormerAgency": "Frühere Agenturarbeit",
     "related": "Verwandtes Projekt",
-    "allWork": "Alle Arbeiten"
+    "allWork": "Alle Arbeiten",
+    "ctaSimilar": "Ähnliches Projekt besprechen",
+    "sections": {
+      "situation": "Situation",
+      "question": "Offene Frage",
+      "assignment": "Auftrag",
+      "decision": "Entscheid",
+      "preserved": "Was bewusst blieb",
+      "application": "Anwendung",
+      "result": "Ergebnis"
+    }
   },
   "contact": {
     "name": "Name",
@@ -57,7 +71,10 @@
       "emailInvalid": "Bitte geben Sie eine gültige E-Mail-Adresse an.",
       "companyRequired": "Bitte geben Sie Ihr Unternehmen an.",
       "messageRequired": "Bitte beschreiben Sie kurz, was bei Ihnen ansteht."
-    }
+    },
+    "closeTitle": "Was steht bei Ihrem Unternehmen an?",
+    "contactPersonLabel": "Ihr Ansprechpartner",
+    "orByEmail": "oder per E-Mail:"
   },
   "faq": {
     "title": "Fragen zur Zusammenarbeit"
@@ -66,5 +83,18 @@
     "title": "Diese Seite gibt es nicht.",
     "text": "Vielleicht hilft die Übersicht weiter.",
     "home": "Zur Startseite"
+  },
+  "services": {
+    "sections": {
+      "triggers": "Typische Auslöser",
+      "youGet": "Sie erhalten",
+      "whatItTakes": "Was es von Ihnen braucht",
+      "cases": "Passende Arbeiten"
+    },
+    "assessmentLink": "Standortbestimmung ansehen"
+  },
+  "empty": {
+    "title": "Rohbau",
+    "text": "Sanity ist noch nicht verbunden oder das Dokument «Startseite» fehlt. Anleitung: docs/SANITY.md."
   }
 }

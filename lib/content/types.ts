@@ -43,6 +43,9 @@ export interface CaseSummary {
   heroImage: Figure;
   featured: boolean;
   order?: number;
+  origin: "brand-architects" | "former-agency";
+  formerAgency?: string;
+  year: string;
   services: { title: string; slug: string }[];
 }
 
@@ -55,9 +58,6 @@ export interface Case extends CaseSummary {
   application?: PortableTextBlock[];
   result?: string;
   quote?: Quote;
-  origin: "brand-architects" | "former-agency";
-  formerAgency?: string;
-  year: string;
   role: string;
   partners?: string[];
   contactTopic: ContactTopic;
@@ -75,6 +75,7 @@ export interface Service {
   _id: string;
   slug: string;
   title: string;
+  headline?: string;
   teaser: string;
   forWhom: string;
   triggers: string[];
@@ -101,6 +102,7 @@ export interface Page {
   body?: PortableTextBlock[];
   steps?: ProcessStep[];
   faqs?: Faq[];
+  ctaTitle?: string;
   ctaLabel?: string;
   contactTopic?: ContactTopic;
   seo?: Seo;
@@ -114,13 +116,16 @@ export interface Home {
   workTitle?: string;
   situationsTitle?: string;
   situations?: { title: string; text: string }[];
+  servicesTitle?: string;
   aiLine?: string;
   assessmentTitle?: string;
   assessmentText?: string;
+  assessmentNote?: string;
   collaborationTitle?: string;
   collaborationText?: string;
   steps?: ProcessStep[];
   timeframe?: string;
+  agencyTitle?: string;
   agencyText?: string;
   contactTitle?: string;
   contactText?: string;
